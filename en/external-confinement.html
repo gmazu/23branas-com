@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confinement Matrices | 23Branas</title>
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <style>
+    :root { --bg:#06070a; --panel:rgba(15,17,23,.82); --panel-border:rgba(255,255,255,.08); --text:#f4f0e7; --muted:#b7b0a1; --gold:#d2ae58; --shadow:0 22px 60px rgba(0,0,0,.45); }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--text); background:radial-gradient(circle at 20% 20%, rgba(141,213,255,.08), transparent 28%), radial-gradient(circle at 80% 18%, rgba(255,106,136,.08), transparent 24%), linear-gradient(180deg, #040507 0%, #090b11 50%, #050608 100%); font-family:"Bodoni Moda", serif; }
+    .shell { width:min(920px, calc(100vw - 32px)); margin:0 auto; padding:28px 0 72px; }
+    .nav,.panel { border:1px solid var(--panel-border); background:var(--panel); border-radius:28px; box-shadow:var(--shadow); backdrop-filter:blur(14px); }
+    .nav { display:flex; justify-content:space-between; gap:16px; align-items:center; padding:14px 18px; margin-bottom:22px; }
+    .brand,.back,.eyebrow,table { font-family:"IBM Plex Mono", monospace; }
+    .brand { font-size:.95rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); }
+    .back { font-size:.76rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-decoration:none; }
+    .panel { padding:34px; }
+    .eyebrow { margin:0 0 14px; color:var(--gold); font-size:.74rem; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { margin:0 0 12px; font-size:clamp(2.3rem, 6vw, 4.6rem); line-height:.96; font-weight:500; letter-spacing:-.04em; }
+    p,.base { margin:0 0 18px; color:var(--muted); line-height:1.7; font-size:1rem; }
+    .matrix-wrap { overflow-x:auto; padding:18px; border-radius:22px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); }
+    .matrix-block + .matrix-block { margin-top: 22px; }
+    .matrix-title {
+      margin: 0 0 10px;
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    table { width:100%; border-collapse:collapse; min-width:620px; font-size:.98rem; }
+    th,td { padding:10px 12px; text-align:center; border:1px solid rgba(255,255,255,.08); }
+    th,.row-head { color:var(--gold); font-weight:600; background:rgba(210,174,88,.05); }
+    .section-title { margin: 18px 0 10px; color: var(--gold); font-family: "IBM Plex Mono", monospace; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
+    ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.7; }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="shell">
+    <header class="nav">
+      <div class="brand">23Branas</div>
+      <a class="back" href="./">Back to EN</a>
+    </header>
+    <section class="panel">
+      <div class="eyebrow">|ᚱ²|</div>
+      <h1>Confinement</h1>
+      <p>Confinement appears here as two linked matrices in the official 6x6 basis: external confinement and internal confinement.</p>
+      <div class="base">B6 = (P, P+, e-, e, m-, M+)</div>
+      <div class="matrix-block">
+        <div class="matrix-title">|ᚱ²+| External Confinement</div>
+        <div class="matrix-wrap">
+          <table aria-label="External Confinement matrix">
+            <thead>
+              <tr><th></th><th>P</th><th>P+</th><th>e-</th><th>e</th><th>m-</th><th>M+</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="row-head">P</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td class="row-head">P+</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+              <tr><td class="row-head">e-</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+              <tr><td class="row-head">e</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td class="row-head">m-</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+              <tr><td class="row-head">M+</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section-title">How To Read</div>
+        <p>If the row is <code>P+</code> and the column is <code>e-</code>, the cell reads <code>P+ R2+ e-</code>. Here <code>1</code> means total external confinement and <code>0</code> means no external confinement in this layer.</p>
+        <div class="section-title">Document Reading</div>
+        <ul>
+          <li><code>P</code> is externally confined by <code>P+</code>.</li>
+          <li><code>P+</code> and <code>e-</code> form the base atomic pair.</li>
+          <li><code>m-</code> and <code>M+</code> participate as active external membranes.</li>
+          <li>The neutrino <code>e</code> does not participate in this layer.</li>
+        </ul>
+        <div class="section-title">Active Combinations</div>
+        <ul>
+          <li><code>P</code> with <code>P+</code>.</li>
+          <li><code>P+</code> with <code>P</code>, <code>e-</code>, <code>m-</code>.</li>
+          <li><code>e-</code> with <code>P+</code>, <code>m-</code>, <code>M+</code>.</li>
+          <li><code>m-</code> with <code>P+</code>, <code>e-</code>, <code>M+</code>.</li>
+          <li><code>M+</code> with <code>e-</code>, <code>m-</code>.</li>
+        </ul>
+      </div>
+      <div class="matrix-block">
+        <div class="matrix-title">|ᚱ²-| Internal Confinement</div>
+        <div class="matrix-wrap">
+          <table aria-label="Internal Confinement matrix">
+            <thead>
+              <tr><th></th><th>P</th><th>P+</th><th>e-</th><th>e</th><th>m-</th><th>M+</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="row-head">P</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td class="row-head">P+</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td class="row-head">e-</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td class="row-head">e</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td class="row-head">m-</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr><td class="row-head">M+</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section-title">How To Read</div>
+        <p>If the row is <code>P</code> and the column is <code>P+</code>, the cell reads <code>P R2- P+</code>. Here <code>1</code> means the second state can enter or integrate structurally inside the system; <code>0</code> means it cannot.</p>
+        <div class="section-title">Document Reading</div>
+        <ul>
+          <li>Only the nucleus lives in this layer.</li>
+          <li>The active pair is <code>P ↔ P+</code>.</li>
+          <li>Electron, neutrino, and free membranes do not belong to the internal nuclear structure in this version.</li>
+        </ul>
+        <div class="section-title">Active Combinations</div>
+        <ul>
+          <li><code>P</code> with <code>P+</code>.</li>
+          <li><code>P+</code> with <code>P</code>.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

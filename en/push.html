@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Push Matrix | 23Branas</title>
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <style>
+    :root {
+      --bg: #06070a;
+      --panel: rgba(15, 17, 23, 0.82);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --text: #f4f0e7;
+      --muted: #b7b0a1;
+      --gold: #d2ae58;
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(141, 213, 255, 0.08), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(255, 106, 136, 0.08), transparent 24%),
+        linear-gradient(180deg, #040507 0%, #090b11 50%, #050608 100%);
+      font-family: "Bodoni Moda", serif;
+    }
+
+    .shell {
+      width: min(920px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+
+    .nav, .panel {
+      border: 1px solid var(--panel-border);
+      background: var(--panel);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      font-size: 0.95rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+    }
+
+    .back {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .panel { padding: 34px; }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.3rem, 6vw, 4.6rem);
+      line-height: 0.96;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+    }
+
+    p, .base {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .matrix-wrap {
+      overflow-x: auto;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.98rem;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    th {
+      color: var(--gold);
+      font-weight: 600;
+      background: rgba(210, 174, 88, 0.05);
+    }
+
+    .row-head {
+      color: var(--gold);
+      font-weight: 600;
+      background: rgba(210, 174, 88, 0.05);
+    }
+
+    .section-title {
+      margin: 22px 0 10px;
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="shell">
+    <header class="nav">
+      <div class="brand">23Branas</div>
+      <a class="back" href="./">Back to EN</a>
+    </header>
+
+    <section class="panel">
+      <div class="eyebrow">|ᚱ¹|</div>
+      <h1>Push</h1>
+      <p>Operational matrix for direct interaction in the official 6x6 basis.</p>
+      <div class="base">B6 = (P, P+, e-, e, m-, M+)</div>
+      <div class="matrix-wrap">
+        <table aria-label="Push matrix">
+          <thead>
+            <tr>
+              <th></th>
+              <th>P</th>
+              <th>P+</th>
+              <th>e-</th>
+              <th>e</th>
+              <th>m-</th>
+              <th>M+</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="row-head">P</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td class="row-head">P+</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td class="row-head">e-</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td class="row-head">e</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+            <tr><td class="row-head">m-</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td class="row-head">M+</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-title">How To Read</div>
+      <p>If the row is <code>P</code> and the column is <code>e-</code>, the cell reads <code>P R1 e-</code>. In this matrix, <code>1</code> means active structural interaction and <code>0</code> means no direct interaction is counted in this layer.</p>
+      <div class="section-title">Document Reading</div>
+      <ul>
+        <li>Nucleus: <code>P</code> with <code>P+</code>.</li>
+        <li>Atom: <code>P+</code> with <code>e-</code>.</li>
+        <li>Released membranes are not calculated in <code>R1</code>.</li>
+        <li>The neutrino <code>e</code> participates as a neutral state in the interaction layer.</li>
+      </ul>
+      <div class="section-title">Active Combinations</div>
+      <ul>
+        <li><code>P</code> with <code>P</code>, <code>P+</code>, <code>e-</code>, <code>e</code>.</li>
+        <li><code>P+</code> with <code>P</code>, <code>P+</code>, <code>e-</code>, <code>e</code>.</li>
+        <li><code>e-</code> with <code>P</code>, <code>P+</code>, <code>e-</code>, <code>e</code>.</li>
+        <li><code>e</code> with <code>P</code>, <code>P+</code>, <code>e-</code>, <code>e</code>.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
