@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relational Universe of 2 3-Branes in Collision</title>
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #06070a;
+      --bg-soft: #11131a;
+      --panel: rgba(15, 17, 23, 0.78);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --text: #f4f0e7;
+      --muted: #b7b0a1;
+      --gold: #d2ae58;
+      --gold-soft: #8b6e2c;
+      --cyan: #8dd5ff;
+      --red: #ff6a88;
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(141, 213, 255, 0.08), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(255, 106, 136, 0.08), transparent 24%),
+        radial-gradient(circle at 50% 82%, rgba(210, 174, 88, 0.08), transparent 30%),
+        linear-gradient(180deg, #040507 0%, #090b11 50%, #050608 100%);
+      font-family: "Bodoni Moda", serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.45;
+      background-image:
+        radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,0.32) 0%, transparent 100%),
+        radial-gradient(1px 1px at 18% 44%, rgba(255,255,255,0.18) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 22%, rgba(255,255,255,0.26) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 70%, rgba(255,255,255,0.18) 0%, transparent 100%),
+        radial-gradient(1px 1px at 56% 18%, rgba(255,255,255,0.18) 0%, transparent 100%),
+        radial-gradient(1px 1px at 72% 36%, rgba(255,255,255,0.22) 0%, transparent 100%),
+        radial-gradient(1px 1px at 82% 72%, rgba(255,255,255,0.18) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 28%, rgba(255,255,255,0.24) 0%, transparent 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 24px 0 72px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      margin-bottom: 26px;
+      border: 1px solid var(--panel-border);
+      border-radius: 999px;
+      background: rgba(6, 7, 10, 0.55);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .nav-title {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.95rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .nav-sub {
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 174, 88, 0.2);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: 180ms ease;
+    }
+
+    .nav-chip:hover {
+      transform: translateY(-1px);
+      border-color: rgba(210, 174, 88, 0.45);
+      background: rgba(210, 174, 88, 0.08);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy,
+    .hero-visual,
+    .panel {
+      border: 1px solid var(--panel-border);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      padding: 42px 34px 34px;
+      position: relative;
+      text-align: center;
+    }
+
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(141,213,255,0), rgba(141,213,255,0.65), rgba(210,174,88,0.65), rgba(255,106,136,0));
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 auto 22px;
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(141,213,255,0), rgba(141,213,255,0.85));
+    }
+
+    .hero h1 {
+      margin: 0 auto 18px;
+      font-size: clamp(2.9rem, 7vw, 6.4rem);
+      line-height: 0.92;
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      max-width: 16ch;
+      text-wrap: unset;
+    }
+
+    .hero-title-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .hero-title-line--small {
+      font-size: 0.6em;
+      line-height: 1.05;
+      margin: 0.08em 0;
+    }
+
+    .hero p {
+      margin: 0 auto 18px;
+      color: var(--muted);
+      font-size: 1.06rem;
+      line-height: 1.75;
+      max-width: 54ch;
+    }
+
+    .hero-note {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .metric {
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .metric-label {
+      display: block;
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .metric-value {
+      display: block;
+      font-size: 1.02rem;
+      line-height: 1.35;
+    }
+
+    .runic-mark {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      min-width: 2.2ch;
+      min-height: 2.2em;
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .runic-glyph {
+      display: block;
+    }
+
+    .runic-dot {
+      position: absolute;
+      width: 0.14em;
+      height: 0.14em;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px rgba(210, 174, 88, 0.28);
+    }
+
+    .runic-dot.top {
+      top: -0.08em;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .runic-dot.top-left {
+      top: 0.18em;
+      left: calc(50% - 0.15em);
+      transform: translateX(-50%);
+    }
+
+    .runic-dot.top-right {
+      top: 0.18em;
+      left: calc(50% + 0.15em);
+      transform: translateX(-50%);
+    }
+
+    .runic-dot.bottom-left {
+      bottom: 0.18em;
+      left: calc(50% - 0.28em);
+      transform: translateX(-50%);
+    }
+
+    .runic-dot.bottom-right {
+      bottom: 0.18em;
+      left: calc(50% + 0.28em);
+      transform: translateX(-50%);
+    }
+
+    .hero-visual {
+      --left-x: -132%;
+      --right-x: 132%;
+      --left-scale-x: 0.74;
+      --right-scale-x: 0.74;
+      --left-scale-y: 0.74;
+      --right-scale-y: 0.74;
+      --left-opacity: 0;
+      --right-opacity: 0;
+      --collision-scale-x: 0.78;
+      --collision-scale-y: 0.78;
+      --collision-opacity: 0;
+      display: grid;
+      place-items: center;
+      min-height: 340px;
+      position: relative;
+      overflow: visible;
+      margin-top: 4px;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(141,213,255,0.14), transparent 24%),
+        radial-gradient(circle at 50% 58%, rgba(255,106,136,0.12), transparent 22%),
+        linear-gradient(180deg, rgba(6,7,10,0.4), rgba(6,7,10,0.9));
+    }
+
+    .hero-visual-stage {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: inherit;
+    }
+
+    .hero-visual-field {
+      position: absolute;
+      inset: -2% -10% 0;
+    }
+
+    .brane {
+      position: absolute;
+      top: 50%;
+      width: 56%;
+      height: 60%;
+      border-radius: 50%;
+      filter: blur(32px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .brane-left {
+      left: 0;
+      opacity: var(--left-opacity);
+      transform: translate(var(--left-x), -50%) scale(var(--left-scale-x), var(--left-scale-y));
+      background:
+        radial-gradient(circle at 72% 50%, rgba(105, 199, 255, 0.78) 0%, rgba(105, 199, 255, 0.32) 34%, rgba(105, 199, 255, 0.08) 58%, transparent 78%);
+    }
+
+    .brane-right {
+      right: 0;
+      opacity: var(--right-opacity);
+      transform: translate(var(--right-x), -50%) scale(var(--right-scale-x), var(--right-scale-y));
+      background:
+        radial-gradient(circle at 28% 50%, rgba(255, 96, 118, 0.74) 0%, rgba(255, 96, 118, 0.3) 34%, rgba(255, 96, 118, 0.08) 58%, transparent 78%);
+    }
+
+    .hero-visual-interference {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 26%;
+      height: 40%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.12) 28%, rgba(186, 218, 255, 0.08) 48%, transparent 74%);
+      filter: blur(18px);
+      opacity: var(--collision-opacity);
+      z-index: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(var(--collision-scale-x), var(--collision-scale-y));
+    }
+
+    .hero-visual img {
+      width: auto;
+      height: auto;
+      max-width: min(100%, 220px);
+      max-height: 180px;
+      object-fit: contain;
+      object-position: center center;
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      transform: none;
+      position: relative;
+      z-index: 1;
+      filter: saturate(0.96) drop-shadow(0 0 18px rgba(255,255,255,0.08));
+      -webkit-mask-image: radial-gradient(circle at center, #000 0 44%, rgba(0,0,0,0.98) 56%, rgba(0,0,0,0.72) 68%, transparent 84%);
+      mask-image: radial-gradient(circle at center, #000 0 44%, rgba(0,0,0,0.98) 56%, rgba(0,0,0,0.72) 68%, transparent 84%);
+    }
+
+    .visual-caption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      text-align: center;
+      max-width: 58ch;
+      margin-inline: auto;
+    }
+
+    @media (max-width: 720px) {
+      .hero-visual {
+        min-height: 300px;
+        padding: 22px;
+      }
+
+      .hero-visual img {
+        max-width: min(100%, 180px);
+        max-height: 150px;
+      }
+
+      .brane {
+        width: 62%;
+        height: 54%;
+      }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .panel {
+      padding: 26px 24px;
+    }
+
+    .span-7 { grid-column: span 7; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-8 { grid-column: span 8; }
+
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 1.45rem;
+      line-height: 1.15;
+      font-weight: 500;
+    }
+
+    .panel p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 1rem;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .list-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .list-item::before {
+      content: "";
+      flex: 0 0 10px;
+      width: 10px;
+      height: 10px;
+      margin-top: 0.45em;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--cyan), var(--gold));
+      box-shadow: 0 0 12px rgba(141, 213, 255, 0.45);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .card-link {
+      display: block;
+      padding: 18px 18px 20px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: 180ms ease;
+      min-height: 100%;
+    }
+
+    .card-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(210,174,88,0.4);
+      background: rgba(210,174,88,0.06);
+    }
+
+    .card-tag {
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      line-height: 1.4;
+    }
+
+    .card-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .counter-wrap {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(141, 213, 255, 0.14);
+      background:
+        linear-gradient(180deg, rgba(5, 8, 14, 0.92), rgba(8, 12, 20, 0.98)),
+        radial-gradient(circle at 50% 50%, rgba(141, 213, 255, 0.08), transparent 55%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 0 28px rgba(141, 213, 255, 0.08),
+        0 16px 40px rgba(0, 0, 0, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timepanel-wrap {
+      margin-top: 14px;
+      margin-bottom: 12px;
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(171, 255, 184, 0.16);
+      background:
+        linear-gradient(180deg, rgba(4, 10, 8, 0.94), rgba(7, 16, 12, 0.98)),
+        radial-gradient(circle at 50% 50%, rgba(171, 255, 184, 0.07), transparent 58%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 0 26px rgba(171, 255, 184, 0.08),
+        0 16px 40px rgba(0, 0, 0, 0.26);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timepanel-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255,255,255,0.025) 0px,
+          rgba(255,255,255,0.025) 1px,
+          transparent 1px,
+          transparent 6px
+        );
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .timepanel-label {
+      display: block;
+      margin-bottom: 10px;
+      color: rgba(171, 255, 184, 0.82);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .timepanel-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .timepanel-cell {
+      padding: 8px 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(171, 255, 184, 0.12);
+      background: linear-gradient(180deg, rgba(8, 16, 12, 0.92), rgba(0, 0, 0, 0.7));
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .timepanel-unit {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(244, 240, 231, 0.72);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .timepanel-num-wrap {
+      min-height: 2.1em;
+      display: grid;
+      place-items: center;
+    }
+
+    .timepanel-num {
+      display: block;
+      font-family: "IBM Plex Mono", monospace;
+      color: #c8ffd0;
+      text-shadow:
+        0 0 8px rgba(171, 255, 184, 0.55),
+        0 0 18px rgba(171, 255, 184, 0.22);
+      font-size: clamp(1rem, 2vw, 1.55rem);
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .counter-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255,255,255,0.03) 0px,
+          rgba(255,255,255,0.03) 1px,
+          transparent 1px,
+          transparent 6px
+        );
+      opacity: 0.22;
+      pointer-events: none;
+    }
+
+    .counter-label {
+      display: block;
+      margin-bottom: 10px;
+      color: rgba(141, 213, 255, 0.78);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .counter {
+      position: relative;
+      z-index: 1;
+      font-family: "IBM Plex Mono", monospace;
+      color: #ff8f3f;
+      text-shadow:
+        0 0 8px rgba(255, 143, 63, 0.55),
+        0 0 18px rgba(255, 143, 63, 0.24);
+      font-size: clamp(1.22rem, 2.4vw, 1.7rem);
+      letter-spacing: 0.12em;
+      line-height: 1.45;
+      word-break: break-word;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .counter-meta {
+      position: relative;
+      z-index: 1;
+      margin-top: 10px;
+      color: rgba(244, 240, 231, 0.46);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+
+    .counter-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .counter-cell {
+      padding: 8px 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 143, 63, 0.12);
+      background: linear-gradient(180deg, rgba(8, 10, 16, 0.92), rgba(0, 0, 0, 0.72));
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .counter-num {
+      display: block;
+      font-family: "IBM Plex Mono", monospace;
+      color: #ff8f3f;
+      text-shadow:
+        0 0 8px rgba(255, 143, 63, 0.55),
+        0 0 18px rgba(255, 143, 63, 0.24);
+      font-size: clamp(1rem, 2vw, 1.55rem);
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .counter-unit {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(244, 240, 231, 0.72);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .counter-num-wrap {
+      min-height: 2.1em;
+      display: grid;
+      place-items: center;
+    }
+
+    .counter-cell.seconds .counter-num {
+      animation: pulseTick 1s steps(1, end) infinite;
+    }
+
+    @keyframes pulseTick {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.64; }
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .status-chip {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .footer {
+      padding-top: 28px;
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: rgba(244, 240, 231, 0.56);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-4,
+      .span-5,
+      .span-6,
+      .span-7,
+      .span-8 {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        width: min(100vw - 20px, 1180px);
+        padding-top: 14px;
+      }
+
+      .nav {
+        border-radius: 24px;
+        padding: 14px;
+      }
+
+      .nav-brand {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .hero-copy,
+      .panel {
+        padding: 22px 18px;
+      }
+
+      .hero-note,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="nav">
+      <div class="nav-brand">
+        <div class="nav-title">3Branas</div>
+        <div class="nav-sub">eCEL · Collision of 2 3-Branes · Working Draft</div>
+      </div>
+      <nav class="nav-links">
+        <a class="nav-chip" href="../es/" lang="es" aria-label="Spanish version">🇨🇱 ES</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <article class="hero-copy">
+        <div class="eyebrow">Universe under construction</div>
+        <h1>
+          <span class="hero-title-line">Relational Universe</span>
+          <span class="hero-title-line hero-title-line--small">of</span>
+          <span class="hero-title-line">2 3-Branes in Collision.</span>
+        </h1>
+        <p>
+          A new interpretation of the observed universe, developed through a
+          series of independent papers still in progress.
+        </p>
+
+        <div class="hero-note">
+          <div class="metric">
+            <span class="metric-label">Push</span>
+            <span class="metric-value runic-mark">
+              <span class="runic-glyph">ᚱ</span>
+              <span class="runic-dot top"></span>
+            </span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Confinement</span>
+            <span class="metric-value runic-mark">
+              <span class="runic-glyph">ᚱ</span>
+              <span class="runic-dot top-left"></span>
+              <span class="runic-dot top-right"></span>
+            </span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Rotation</span>
+            <span class="metric-value runic-mark">
+              <span class="runic-glyph">ᚱ</span>
+              <span class="runic-dot top"></span>
+              <span class="runic-dot top-left"></span>
+              <span class="runic-dot top-right"></span>
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="hero-visual">
+        <div class="hero-visual-stage" aria-hidden="true">
+          <div class="hero-visual-field">
+            <div class="brane brane-left"></div>
+            <div class="brane brane-right"></div>
+            <div class="hero-visual-interference"></div>
+          </div>
+        </div>
+        <img src="../assets/img/preview-640.jpg" alt="Visual symbol of 3-Branas">
+      </aside>
+      <div class="visual-caption">
+        Symbolic interface of the project. The visual reading matters:
+        contact, coupling, tension, and reorganization of the medium.
+      </div>
+    </section>
+
+    <section class="grid" id="framework">
+      <article class="panel span-7">
+        <h2>What currently defines the framework</h2>
+        <p>
+          The current priority is not to “explain everything” at once, but to
+          close pieces with mechanism: collision geometry, observational scales,
+          medium perturbations, experimental analogies, and documents that can
+          be read without depending on a previous conversation.
+        </p>
+        <div class="list">
+          <div class="list-item">The collision is not treated as an explosion without mechanism, but as a physical interface sweeping a geometry.</div>
+          <div class="list-item">eCEL is used as a liberated regime of the medium, with propagation, coupling, and wave-like response.</div>
+          <div class="list-item">Apparent inflation is read geometrically, not as matter moving faster than light.</div>
+          <div class="list-item">The same architecture tries to connect cosmological structure, gravitational waves, and more microscopic branches of the model.</div>
+        </div>
+      </article>
+
+      <aside class="panel span-5">
+        <h2>Symbolic warning</h2>
+        <p>
+          This website is still under construction. The countdown is not
+          physical: it is a visual game built around the 13.8 billion years we
+          have spent trying to understand what happened.
+        </p>
+        <div class="timepanel-wrap">
+          <span class="timepanel-label">Present Time</span>
+          <div class="timepanel-grid" id="presentTimePanel">
+            <div class="timepanel-cell"><span class="timepanel-unit">month</span><span class="timepanel-num-wrap"><span class="timepanel-num">--</span></span></div>
+            <div class="timepanel-cell"><span class="timepanel-unit">day</span><span class="timepanel-num-wrap"><span class="timepanel-num">--</span></span></div>
+            <div class="timepanel-cell"><span class="timepanel-unit">year</span><span class="timepanel-num-wrap"><span class="timepanel-num">----</span></span></div>
+            <div class="timepanel-cell"><span class="timepanel-unit">hour</span><span class="timepanel-num-wrap"><span class="timepanel-num">--</span></span></div>
+            <div class="timepanel-cell"><span class="timepanel-unit">min</span><span class="timepanel-num-wrap"><span class="timepanel-num">--</span></span></div>
+            <div class="timepanel-cell"><span class="timepanel-unit">sec</span><span class="timepanel-num-wrap"><span class="timepanel-num">--</span></span></div>
+          </div>
+        </div>
+        <div class="counter-wrap">
+          <span class="counter-label">Countdown Display</span>
+          <div class="counter-grid" id="counter">
+            <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+          <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+          <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+        </div>
+          <div class="counter-meta">Symbolic time remaining before the framework closes into a readable form</div>
+        </div>
+        <div class="status-row">
+          <span class="status-chip">Santiago, Chile</span>
+          <span class="status-chip">MMXXVI</span>
+          <span class="status-chip">Working draft</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid" id="status">
+      <article class="panel span-6">
+        <h2>Current state</h2>
+        <p>
+          The priority is still to close readable documents, not to inflate the
+          system with new branches. The question is no longer “is there an
+          idea?”, but which part is already closed enough to be read without
+          extra context.
+        </p>
+        <div class="list">
+          <div class="list-item">Collision of 2 3-Branes is already in a polishing and external-reading phase.</div>
+          <div class="list-item">MazzGAP works as a separate technical branch for stability and binding energy.</div>
+          <div class="list-item">The website should act as an entry point, not as a substitute for the paper.</div>
+        </div>
+      </article>
+
+      <article class="panel span-6">
+        <h2>Contact and circulation</h2>
+        <p>
+          If this line is going to circulate, it should be accompanied by
+          versioned PDFs, a short contextual note, and reading materials
+          consistent with the main document.
+        </p>
+        <div class="cards" style="grid-template-columns: 1fr;">
+          <a class="card-link" href="mailto:contacto@3branas.com">
+            <span class="card-tag">Contact</span>
+            <span class="card-title">contacto@3branas.com</span>
+            <span class="card-note">Public contact alias for the external presentation of the project.</span>
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span>3Branas · eCEL · GRF2026</span>
+      <span>Universe under construction</span>
+    </footer>
+  </div>
+
+  <script>
+    const SYMBOLIC_YEARS = 13800000000;
+    const REFERENCE_START = new Date("2026-04-03T07:00:00-03:00").getTime();
+    const UNITS_IN_SECONDS = {
+      months: 30 * 24 * 3600,
+      days: 24 * 3600,
+      hours: 3600,
+      minutes: 60
+    };
+
+    function getCounterParts(nowMs) {
+      const elapsedSeconds = Math.max(0, Math.floor((nowMs - REFERENCE_START) / 1000));
+
+      const months = 11 - Math.floor(elapsedSeconds / UNITS_IN_SECONDS.months) % 12;
+      const monthRemainder = elapsedSeconds % UNITS_IN_SECONDS.months;
+      const days = 29 - Math.floor(monthRemainder / UNITS_IN_SECONDS.days) % 30;
+      const dayRemainder = monthRemainder % UNITS_IN_SECONDS.days;
+      const hours = 23 - Math.floor(dayRemainder / UNITS_IN_SECONDS.hours);
+      const hourRemainder = dayRemainder % UNITS_IN_SECONDS.hours;
+      const minutes = 59 - Math.floor(hourRemainder / UNITS_IN_SECONDS.minutes);
+      const seconds = 59 - (hourRemainder % UNITS_IN_SECONDS.minutes);
+
+      return {
+        years: SYMBOLIC_YEARS,
+        months: months < 0 ? 0 : months,
+        days: days < 0 ? 0 : days,
+        hours: hours < 0 ? 0 : hours,
+        minutes: minutes < 0 ? 0 : minutes,
+        seconds: seconds < 0 ? 0 : seconds
+      };
+    }
+
+    function updateCounter() {
+      const now = new Date();
+      const { years, months, days, hours, minutes, seconds } = getCounterParts(now.getTime());
+      document.getElementById("presentTimePanel").innerHTML = `
+        <div class="timepanel-cell"><span class="timepanel-unit">month</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getMonth() + 1).padStart(2, "0")}</span></span></div>
+        <div class="timepanel-cell"><span class="timepanel-unit">day</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getDate()).padStart(2, "0")}</span></span></div>
+        <div class="timepanel-cell"><span class="timepanel-unit">year</span><span class="timepanel-num-wrap"><span class="timepanel-num">${now.getFullYear()}</span></span></div>
+        <div class="timepanel-cell"><span class="timepanel-unit">hour</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getHours()).padStart(2, "0")}</span></span></div>
+        <div class="timepanel-cell"><span class="timepanel-unit">min</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getMinutes()).padStart(2, "0")}</span></span></div>
+        <div class="timepanel-cell"><span class="timepanel-unit">sec</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getSeconds()).padStart(2, "0")}</span></span></div>
+      `;
+      document.getElementById("counter").innerHTML = `
+        <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(months).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(days).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hours).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">${String(minutes).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">${String(seconds).padStart(2, "0")}</span></span></div>
+      `;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function mix(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function smoothstep(edge0, edge1, x) {
+      const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+      return t * t * (3 - 2 * t);
+    }
+
+    function setupHeroCollision() {
+      const visual = document.querySelector(".hero-visual");
+      if (!visual) return;
+
+      const cycleMs = 26000;
+      const travelStart = 0.06;
+      const travelEnd = 0.985;
+
+      function frame(now) {
+        const t = (now % cycleMs) / cycleMs;
+        const travel = clamp((t - travelStart) / (travelEnd - travelStart), 0, 1);
+
+        let leftX = -132;
+        let rightX = 132;
+        let leftOpacity = 0;
+        let rightOpacity = 0;
+        let leftScaleX = 0.74;
+        let rightScaleX = 0.74;
+        let leftScaleY = 0.74;
+        let rightScaleY = 0.74;
+        let collisionOpacity = 0;
+        let collisionScaleX = 0.78;
+        let collisionScaleY = 0.78;
+
+        if (t >= travelStart && t <= travelEnd) {
+          leftX = mix(-132, 132, travel);
+          rightX = mix(132, -132, travel);
+
+          const fadeIn = smoothstep(0, 0.09, travel);
+          const visibility = fadeIn;
+
+          leftOpacity = rightOpacity = 0.68 * visibility;
+
+          const centerDistance = Math.abs(leftX - rightX);
+          const overlap = clamp(1 - centerDistance / 58, 0, 1);
+
+          leftScaleX = rightScaleX = mix(0.74, 1.03, visibility) + 0.04 * overlap;
+          leftScaleY = rightScaleY = mix(0.74, 1.03, visibility) - 0.06 * overlap;
+
+          collisionOpacity = 0.44 * Math.pow(overlap, 1.35);
+          collisionScaleX = mix(0.82, 1.52, overlap);
+          collisionScaleY = mix(0.82, 0.84, overlap);
+        }
+
+        visual.style.setProperty("--left-x", `${leftX}%`);
+        visual.style.setProperty("--right-x", `${rightX}%`);
+        visual.style.setProperty("--left-opacity", leftOpacity.toFixed(3));
+        visual.style.setProperty("--right-opacity", rightOpacity.toFixed(3));
+        visual.style.setProperty("--left-scale-x", leftScaleX.toFixed(3));
+        visual.style.setProperty("--right-scale-x", rightScaleX.toFixed(3));
+        visual.style.setProperty("--left-scale-y", leftScaleY.toFixed(3));
+        visual.style.setProperty("--right-scale-y", rightScaleY.toFixed(3));
+        visual.style.setProperty("--collision-opacity", collisionOpacity.toFixed(3));
+        visual.style.setProperty("--collision-scale-x", collisionScaleX.toFixed(3));
+        visual.style.setProperty("--collision-scale-y", collisionScaleY.toFixed(3));
+
+        requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+    setupHeroCollision();
+  </script>
+</body>
+</html>
