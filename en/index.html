@@ -457,6 +457,7 @@
     .span-4 { grid-column: span 4; }
     .span-6 { grid-column: span 6; }
     .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
 
     .panel h2 {
       margin: 0 0 14px;
@@ -543,6 +544,150 @@
       line-height: 1.55;
     }
 
+    .diagram-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 22px;
+      align-items: start;
+      margin-top: 16px;
+    }
+
+    .figure-box,
+    .summary-box {
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .figure-box {
+      padding: 18px;
+    }
+
+    .figure-stage {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ece8e0;
+    }
+
+    .figure-stage img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .marker {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 34%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .marker::before {
+      content: none;
+    }
+
+    .marker::after {
+      content: none;
+    }
+
+    .marker-id,
+    .summary-id {
+      font-family: "IBM Plex Mono", monospace;
+    }
+
+    .marker-id {
+      width: 24px;
+      height: 24px;
+      flex: 0 0 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(6, 7, 10, 0.9);
+      border: 1px solid rgba(210, 174, 88, 0.4);
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .marker-label {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(6, 7, 10, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 0.8rem;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .marker--1 { left: 56%; top: 15%; }
+    .marker--2 { left: 33%; top: 57%; }
+    .marker--3 { left: 70%; top: 50%; }
+    .marker--4 { left: 42%; top: 63%; }
+    .marker--5 { left: 63%; top: 67%; }
+    .marker--6 { left: 56%; top: 82%; }
+
+    .summary-box {
+      padding: 22px;
+    }
+
+    .summary-title {
+      margin: 0 0 16px;
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .summary-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .summary-id {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(210, 174, 88, 0.14);
+      color: var(--gold);
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+
+    .summary-item h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .summary-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
     .counter-wrap {
       margin-top: 14px;
       padding: 14px;
@@ -557,6 +702,17 @@
         0 16px 40px rgba(0, 0, 0, 0.28);
       position: relative;
       overflow: hidden;
+    }
+
+    .counter-wrap.past-counter {
+      border: 1px solid rgba(210, 174, 88, 0.18);
+      background:
+        linear-gradient(180deg, rgba(14, 11, 5, 0.92), rgba(20, 15, 8, 0.98)),
+        radial-gradient(circle at 50% 50%, rgba(210, 174, 88, 0.08), transparent 55%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 0 28px rgba(210, 174, 88, 0.08),
+        0 16px 40px rgba(0, 0, 0, 0.28);
     }
 
     .timepanel-wrap {
@@ -631,6 +787,52 @@
       text-transform: uppercase;
     }
 
+    .hero-counter {
+      width: min(100%, 760px);
+      margin: 16px auto 0;
+    }
+
+    .hero-counter-shell {
+      width: min(100%, 980px);
+      margin: 16px auto 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .counter-controls {
+      display: grid;
+      gap: 10px;
+      align-self: stretch;
+    }
+
+    .counter-control {
+      min-width: 92px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(6, 7, 10, 0.74);
+      color: var(--text);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 180ms ease;
+    }
+
+    .counter-control:hover {
+      transform: translateY(-1px);
+      border-color: rgba(210,174,88,0.4);
+      background: rgba(210,174,88,0.08);
+    }
+
+    .counter-control.is-active {
+      border-color: rgba(210,174,88,0.5);
+      color: var(--gold);
+    }
+
     .timepanel-num-wrap {
       min-height: 2.1em;
       display: grid;
@@ -678,6 +880,10 @@
       z-index: 1;
     }
 
+    .past-counter .counter-label {
+      color: rgba(210, 174, 88, 0.84);
+    }
+
     .counter {
       position: relative;
       z-index: 1;
@@ -702,6 +908,18 @@
       font-size: 0.68rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+    }
+
+    .past-counter .counter-cell {
+      border: 1px solid rgba(210, 174, 88, 0.14);
+      background: linear-gradient(180deg, rgba(16, 13, 8, 0.92), rgba(0, 0, 0, 0.72));
+    }
+
+    .past-counter .counter-num {
+      color: #e4c26d;
+      text-shadow:
+        0 0 8px rgba(210, 174, 88, 0.45),
+        0 0 18px rgba(210, 174, 88, 0.2);
     }
 
 
@@ -802,6 +1020,10 @@
         grid-template-columns: 1fr;
       }
 
+      .diagram-layout {
+        grid-template-columns: 1fr;
+      }
+
       .span-4,
       .span-5,
       .span-6,
@@ -837,9 +1059,30 @@
         padding: 22px 18px;
       }
 
+      .hero-counter-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .counter-controls {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .hero-note,
       .cards {
         grid-template-columns: 1fr;
+      }
+
+      .figure-box {
+        padding: 12px;
+      }
+
+      .marker {
+        max-width: 44%;
+      }
+
+      .marker-label {
+        font-size: 0.72rem;
+        white-space: normal;
       }
     }
   </style>
@@ -911,6 +1154,37 @@
         Symbolic interface of the project. The visual reading matters:
         contact, coupling, tension, and reorganization of the medium.
       </div>
+      <div class="hero-counter-shell">
+        <div class="counter-wrap hero-counter">
+          <span class="counter-label">Countdown Display</span>
+          <div class="counter-grid" id="counter">
+            <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+          </div>
+          <div class="counter-meta">Symbolic time remaining before the framework closes into a readable form</div>
+        </div>
+        <div class="counter-wrap hero-counter past-counter">
+          <span class="counter-label">Last Time Departed</span>
+          <div class="counter-grid" id="pastCounter">
+            <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+          </div>
+          <div class="counter-meta">Elapsed symbolic time since the cycle began</div>
+        </div>
+        <div class="counter-controls" aria-label="Playback controls">
+          <button class="counter-control is-active" id="playControl" type="button">Play</button>
+          <button class="counter-control" id="pauseControl" type="button">Pause</button>
+          <button class="counter-control" id="stopControl" type="button">Stop</button>
+        </div>
+      </div>
     </section>
 
     <section class="grid" id="framework">
@@ -948,24 +1222,103 @@
             <div class="timepanel-cell"><span class="timepanel-unit">sec</span><span class="timepanel-num-wrap"><span class="timepanel-num">--</span></span></div>
           </div>
         </div>
-        <div class="counter-wrap">
-          <span class="counter-label">Countdown Display</span>
-          <div class="counter-grid" id="counter">
-            <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-          <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-          <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-        </div>
-          <div class="counter-meta">Symbolic time remaining before the framework closes into a readable form</div>
-        </div>
         <div class="status-row">
           <span class="status-chip">Santiago, Chile</span>
           <span class="status-chip">MMXXVI</span>
           <span class="status-chip">Working draft</span>
         </div>
       </aside>
+    </section>
+
+    <section class="grid" id="diagram">
+      <article class="panel span-12">
+        <span class="card-tag">Working Figure</span>
+        <h2>Matter / Antimatter Diagram</h2>
+        <p>
+          Annotated reading of the vertical sketch: antimatter drop, matter universe,
+          observable and unobserved width, propagation fronts, and observer region
+          between fronts.
+        </p>
+        <div class="diagram-layout">
+          <div class="figure-box">
+            <div class="figure-stage">
+              <img src="../assets/img/diagram-work.jpg" alt="Annotated work diagram">
+              <div class="marker marker--1">
+                <span class="marker-id">1</span>
+                <span class="marker-label">Antimatter drop</span>
+              </div>
+              <div class="marker marker--2">
+                <span class="marker-id">2</span>
+                <span class="marker-label">Matter universe</span>
+              </div>
+              <div class="marker marker--3">
+                <span class="marker-id">3</span>
+                <span class="marker-label">Observed / unobserved width</span>
+              </div>
+              <div class="marker marker--4">
+                <span class="marker-id">4</span>
+                <span class="marker-label">First front</span>
+              </div>
+              <div class="marker marker--5">
+                <span class="marker-id">5</span>
+                <span class="marker-label">Measured front</span>
+              </div>
+              <div class="marker marker--6">
+                <span class="marker-id">6</span>
+                <span class="marker-label">Observer region between fronts</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="summary-box">
+            <div class="summary-title">Reading Summary</div>
+            <div class="summary-list">
+              <article class="summary-item">
+                <div class="summary-id">1</div>
+                <div>
+                  <h3>Antimatter drop</h3>
+                  <p>The upper drop is read as the antimatter regime entering or coupling with the lower structure.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">2</div>
+                <div>
+                  <h3>Matter universe</h3>
+                  <p>The ocean-like field carrying the visible wave is read as the matter universe.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">3</div>
+                <div>
+                  <h3>Observed / unobserved width</h3>
+                  <p>The width is not read as a single uniform universe. One sector corresponds to the observable universe, while the remaining extension belongs to the unobserved universe.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">4</div>
+                <div>
+                  <h3>First front</h3>
+                  <p>A first propagation front appears close to the center and may define the faster regime.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">5</div>
+                <div>
+                  <h3>Measured front</h3>
+                  <p>A second front is the one effectively measured, which helps explain why two apparent velocities are inferred.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">6</div>
+                <div>
+                  <h3>Observer region</h3>
+                  <p>The working hypothesis is that we are located somewhere between those two fronts. If the gap is modeled, the relative observer position might be estimated.</p>
+                </div>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </article>
     </section>
 
     <section class="grid" id="status">
@@ -1010,6 +1363,14 @@
   <script>
     const SYMBOLIC_YEARS = 13800000000;
     const REFERENCE_START = new Date("2026-04-03T07:00:00-03:00").getTime();
+    const COLLISION_CYCLE_MS = 34000;
+    const COLLISION_TRAVEL_START = 0.08;
+    const COLLISION_TRAVEL_END = 0.985;
+    const COLLISION_COUNTER_RAMP_MS = 13000;
+    let animationPlaying = true;
+    let animationTimeMs = 0;
+    let lastFrameTime = null;
+    let animationFrameId = null;
     const UNITS_IN_SECONDS = {
       months: 30 * 24 * 3600,
       days: 24 * 3600,
@@ -1039,9 +1400,8 @@
       };
     }
 
-    function updateCounter() {
+    function renderPresentTime() {
       const now = new Date();
-      const { years, months, days, hours, minutes, seconds } = getCounterParts(now.getTime());
       document.getElementById("presentTimePanel").innerHTML = `
         <div class="timepanel-cell"><span class="timepanel-unit">month</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getMonth() + 1).padStart(2, "0")}</span></span></div>
         <div class="timepanel-cell"><span class="timepanel-unit">day</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getDate()).padStart(2, "0")}</span></span></div>
@@ -1050,13 +1410,43 @@
         <div class="timepanel-cell"><span class="timepanel-unit">min</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getMinutes()).padStart(2, "0")}</span></span></div>
         <div class="timepanel-cell"><span class="timepanel-unit">sec</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getSeconds()).padStart(2, "0")}</span></span></div>
       `;
+    }
+
+    function renderCollisionCounter(yearsValue) {
+      const years = Math.max(0, Math.round(yearsValue));
+      const normalized = clamp(yearsValue / SYMBOLIC_YEARS, 0, 1);
+      const monthScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 240)) % 12;
+      const dayScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 1800)) % 30;
+      const hourScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 9600)) % 24;
+      const minuteScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 36000)) % 60;
+      const secondScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 54000)) % 60;
+
       document.getElementById("counter").innerHTML = `
         <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
-        <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(months).padStart(2, "0")}</span></span></div>
-        <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(days).padStart(2, "0")}</span></span></div>
-        <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hours).padStart(2, "0")}</span></span></div>
-        <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">${String(minutes).padStart(2, "0")}</span></span></div>
-        <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">${String(seconds).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">${String(minuteScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">${String(secondScale).padStart(2, "0")}</span></span></div>
+      `;
+    }
+
+    function renderPastCounter(yearsValue) {
+      const years = Math.max(0, Math.round(yearsValue));
+      const normalized = clamp(yearsValue / SYMBOLIC_YEARS, 0, 1);
+      const monthScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 84)) % 12;
+      const dayScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 420)) % 30;
+      const hourScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 2200)) % 24;
+      const minuteScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 8400)) % 60;
+      const secondScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 16000)) % 60;
+
+      document.getElementById("pastCounter").innerHTML = `
+        <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">${String(minuteScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">${String(secondScale).padStart(2, "0")}</span></span></div>
       `;
     }
 
@@ -1076,14 +1466,22 @@
     function setupHeroCollision() {
       const visual = document.querySelector(".hero-visual");
       if (!visual) return;
+      const rampDuration = COLLISION_COUNTER_RAMP_MS / COLLISION_CYCLE_MS;
 
-      const cycleMs = 26000;
-      const travelStart = 0.06;
-      const travelEnd = 0.985;
+      function setControlState() {
+        document.getElementById("playControl")?.classList.toggle("is-active", animationPlaying);
+        document.getElementById("pauseControl")?.classList.toggle("is-active", !animationPlaying);
+      }
 
-      function frame(now) {
-        const t = (now % cycleMs) / cycleMs;
-        const travel = clamp((t - travelStart) / (travelEnd - travelStart), 0, 1);
+      function renderFrame(t) {
+        const rawTravel = clamp((t - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
+        let travel = rawTravel;
+
+        // Keep the initial approach almost linear and only slow down close to contact.
+        if (rawTravel > 0.74) {
+          const finalPhase = smoothstep(0.74, 1, rawTravel);
+          travel = mix(0.74, 1, finalPhase);
+        }
 
         let leftX = -132;
         let rightX = 132;
@@ -1096,8 +1494,10 @@
         let collisionOpacity = 0;
         let collisionScaleX = 0.78;
         let collisionScaleY = 0.78;
+        let counterYears = 0;
+        let pastYears = SYMBOLIC_YEARS * clamp(t, 0, 1);
 
-        if (t >= travelStart && t <= travelEnd) {
+        if (t >= COLLISION_TRAVEL_START && t <= COLLISION_TRAVEL_END) {
           leftX = mix(-132, 132, travel);
           rightX = mix(132, -132, travel);
 
@@ -1117,6 +1517,14 @@
           collisionScaleY = mix(0.82, 0.84, overlap);
         }
 
+        const counterStartT = 0.43309;
+
+        if (t >= counterStartT) {
+          const rampProgress = clamp((t - counterStartT) / rampDuration, 0, 1);
+          const accelerated = 1 - Math.pow(1 - rampProgress, 1.6);
+          counterYears = SYMBOLIC_YEARS * accelerated;
+        }
+
         visual.style.setProperty("--left-x", `${leftX}%`);
         visual.style.setProperty("--right-x", `${rightX}%`);
         visual.style.setProperty("--left-opacity", leftOpacity.toFixed(3));
@@ -1128,15 +1536,48 @@
         visual.style.setProperty("--collision-opacity", collisionOpacity.toFixed(3));
         visual.style.setProperty("--collision-scale-x", collisionScaleX.toFixed(3));
         visual.style.setProperty("--collision-scale-y", collisionScaleY.toFixed(3));
-
-        requestAnimationFrame(frame);
+        renderCollisionCounter(counterYears);
+        renderPastCounter(pastYears);
       }
 
-      requestAnimationFrame(frame);
+      function frame(now) {
+        if (lastFrameTime == null) lastFrameTime = now;
+        const delta = now - lastFrameTime;
+        lastFrameTime = now;
+
+        if (animationPlaying) {
+          animationTimeMs = (animationTimeMs + delta) % COLLISION_CYCLE_MS;
+        }
+
+        renderFrame(animationTimeMs / COLLISION_CYCLE_MS);
+        animationFrameId = requestAnimationFrame(frame);
+      }
+
+      document.getElementById("playControl")?.addEventListener("click", () => {
+        animationPlaying = true;
+        setControlState();
+      });
+
+      document.getElementById("pauseControl")?.addEventListener("click", () => {
+        animationPlaying = false;
+        setControlState();
+      });
+
+      document.getElementById("stopControl")?.addEventListener("click", () => {
+        animationPlaying = false;
+        animationTimeMs = 0;
+        renderFrame(0);
+        setControlState();
+      });
+
+      setControlState();
+      animationFrameId = requestAnimationFrame(frame);
     }
 
-    updateCounter();
-    setInterval(updateCounter, 1000);
+    renderPresentTime();
+    renderCollisionCounter(0);
+    renderPastCounter(0);
+    setInterval(renderPresentTime, 1000);
     setupHeroCollision();
   </script>
 </body>
