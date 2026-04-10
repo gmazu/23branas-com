@@ -1487,18 +1487,18 @@
       const cappedYears = Math.min(yearsValue, SYMBOLIC_YEARS);
       const yearsBillions = Math.max(0, cappedYears / 1000000000);
       const normalized = clamp(cappedYears / SYMBOLIC_YEARS, 0, 1);
-      const fastNormalized = 1 - Math.pow(1 - normalized, 8);
       const targetMonth = targetNow.getMonth() + 1;
       const targetDay = targetNow.getDate();
       const targetHour = targetNow.getHours();
       const targetMinute = targetNow.getMinutes();
       const targetSecond = targetNow.getSeconds();
+      const reachedPresent = cappedYears >= SYMBOLIC_YEARS;
 
-      const monthScale = Math.max(0, Math.floor(mix(0, targetMonth, fastNormalized)));
-      const dayScale = Math.max(0, Math.floor(mix(0, targetDay, fastNormalized)));
-      const hourScale = Math.max(0, Math.floor(mix(0, targetHour, fastNormalized)));
-      const minuteScale = Math.max(0, Math.floor(mix(0, targetMinute, fastNormalized)));
-      const secondScale = Math.max(0, Math.floor(mix(0, targetSecond, fastNormalized)));
+      const monthScale = reachedPresent ? targetMonth : Math.floor((normalized * 240)) % 12;
+      const dayScale = reachedPresent ? targetDay : Math.floor((normalized * 1800)) % 30;
+      const hourScale = reachedPresent ? targetHour : Math.floor((normalized * 9600)) % 24;
+      const minuteScale = reachedPresent ? targetMinute : Math.floor((normalized * 36000)) % 60;
+      const secondScale = reachedPresent ? targetSecond : Math.floor((normalized * 54000)) % 60;
 
       document.getElementById("counter").innerHTML = `
         <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
