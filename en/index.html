@@ -1487,17 +1487,18 @@
       const cappedYears = Math.min(yearsValue, SYMBOLIC_YEARS);
       const yearsBillions = Math.max(0, cappedYears / 1000000000);
       const normalized = clamp(cappedYears / SYMBOLIC_YEARS, 0, 1);
+      const fastNormalized = 1 - Math.pow(1 - normalized, 3.2);
       const targetMonth = targetNow.getMonth() + 1;
       const targetDay = targetNow.getDate();
       const targetHour = targetNow.getHours();
       const targetMinute = targetNow.getMinutes();
       const targetSecond = targetNow.getSeconds();
 
-      const monthScale = Math.max(0, Math.floor(mix(0, targetMonth, normalized)));
-      const dayScale = Math.max(0, Math.floor(mix(0, targetDay, normalized)));
-      const hourScale = Math.max(0, Math.floor(mix(0, targetHour, normalized)));
-      const minuteScale = Math.max(0, Math.floor(mix(0, targetMinute, normalized)));
-      const secondScale = Math.max(0, Math.floor(mix(0, targetSecond, normalized)));
+      const monthScale = Math.max(0, Math.floor(mix(0, targetMonth, fastNormalized)));
+      const dayScale = Math.max(0, Math.floor(mix(0, targetDay, fastNormalized)));
+      const hourScale = Math.max(0, Math.floor(mix(0, targetHour, fastNormalized)));
+      const minuteScale = Math.max(0, Math.floor(mix(0, targetMinute, fastNormalized)));
+      const secondScale = Math.max(0, Math.floor(mix(0, targetSecond, fastNormalized)));
 
       document.getElementById("counter").innerHTML = `
         <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
@@ -1511,12 +1512,13 @@
 
     function renderPastCounter(yearsValue) {
       const yearsBillions = Math.max(0, yearsValue / 1000000000);
-      const normalized = clamp(yearsValue / SYMBOLIC_YEARS, 0, 1);
-      const monthScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 84)) % 12;
-      const dayScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 420)) % 30;
-      const hourScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 2200)) % 24;
-      const minuteScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 8400)) % 60;
-      const secondScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 16000)) % 60;
+      const normalized = clamp(yearsValue / TRANSITION_YEARS, 0, 1);
+      const completed = yearsValue >= TRANSITION_YEARS;
+      const monthScale = completed ? 0 : Math.floor((normalized * 240)) % 12;
+      const dayScale = completed ? 0 : Math.floor((normalized * 1800)) % 30;
+      const hourScale = completed ? 0 : Math.floor((normalized * 9600)) % 24;
+      const minuteScale = completed ? 0 : Math.floor((normalized * 36000)) % 60;
+      const secondScale = completed ? 0 : Math.floor((normalized * 54000)) % 60;
 
       document.getElementById("pastCounter").innerHTML = `
         <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
@@ -1545,12 +1547,6 @@
       const visual = document.querySelector(".hero-visual");
       if (!visual) return;
       const rampDuration = COLLISION_COUNTER_RAMP_MS;
-      function getPostContactDurationMs() {
-        if (contactTimeMs === null) return null;
-        const contactCycleMs = contactTimeMs % COLLISION_CYCLE_MS;
-        return (COLLISION_CYCLE_MS - contactCycleMs) / POST_CONTACT_SPEED_FACTOR;
-      }
-
       function setControlState() {
         const toggleButton = document.getElementById("togglePlaybackControl");
         if (!toggleButton) return;
@@ -1667,17 +1663,27 @@
 
         if (animationPlaying) {
           animationTimeMs += delta;
-          const postContactDurationMs = getPostContactDurationMs();
-          if (contactTimeMs !== null && postContactDurationMs !== null) {
-            const elapsedAfterContact = animationTimeMs - contactTimeMs;
-            if (elapsedAfterContact >= postContactDurationMs) {
-              animationTimeMs = 0;
-              contactTimeMs = null;
-            }
-          }
         }
 
         renderFrame(animationTimeMs);
+
+        const currentLeftX = parseFloat(visual.style.getPropertyValue("--left-x")) || 0;
+        const currentRightX = parseFloat(visual.style.getPropertyValue("--right-x")) || 0;
+        const currentLeftOpacity = parseFloat(visual.style.getPropertyValue("--left-opacity")) || 0;
+        const currentRightOpacity = parseFloat(visual.style.getPropertyValue("--right-opacity")) || 0;
+
+        if (
+          contactTimeMs !== null &&
+          currentLeftX >= 131 &&
+          currentRightX <= -131 &&
+          currentLeftOpacity > 0 &&
+          currentRightOpacity > 0
+        ) {
+          animationTimeMs = 0;
+          contactTimeMs = null;
+          renderFrame(0);
+        }
+
         animationFrameId = requestAnimationFrame(frame);
       }
 
