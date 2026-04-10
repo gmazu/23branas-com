@@ -801,6 +801,12 @@
       align-items: start;
     }
 
+    .hero-counter-stack {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
     .counter-controls {
       display: grid;
       gap: 10px;
@@ -920,6 +926,33 @@
       text-shadow:
         0 0 8px rgba(210, 174, 88, 0.45),
         0 0 18px rgba(210, 174, 88, 0.2);
+    }
+
+    .past-counter.is-green {
+      border: 1px solid rgba(171, 255, 184, 0.16);
+      background:
+        linear-gradient(180deg, rgba(4, 10, 8, 0.94), rgba(7, 16, 12, 0.98)),
+        radial-gradient(circle at 50% 50%, rgba(171, 255, 184, 0.07), transparent 58%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 0 26px rgba(171, 255, 184, 0.08),
+        0 16px 40px rgba(0, 0, 0, 0.26);
+    }
+
+    .past-counter.is-green .counter-label {
+      color: rgba(171, 255, 184, 0.82);
+    }
+
+    .past-counter.is-green .counter-cell {
+      border: 1px solid rgba(171, 255, 184, 0.12);
+      background: linear-gradient(180deg, rgba(8, 16, 12, 0.92), rgba(0, 0, 0, 0.7));
+    }
+
+    .past-counter.is-green .counter-num {
+      color: #c8ffd0;
+      text-shadow:
+        0 0 8px rgba(171, 255, 184, 0.55),
+        0 0 18px rgba(171, 255, 184, 0.22);
     }
 
 
@@ -1155,29 +1188,31 @@
         contact, coupling, tension, and reorganization of the medium.
       </div>
       <div class="hero-counter-shell">
-        <div class="counter-wrap hero-counter">
-          <span class="counter-label">Countdown Display</span>
-          <div class="counter-grid" id="counter">
-            <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+        <div class="hero-counter-stack">
+          <div class="counter-wrap hero-counter past-counter is-green">
+            <span class="counter-label">PRESENT TIME</span>
+            <div class="counter-grid" id="counter">
+              <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            </div>
+            <div class="counter-meta">Symbolic time remaining before the framework closes into a readable form</div>
           </div>
-          <div class="counter-meta">Symbolic time remaining before the framework closes into a readable form</div>
-        </div>
-        <div class="counter-wrap hero-counter past-counter">
-          <span class="counter-label">Last Time Departed</span>
-          <div class="counter-grid" id="pastCounter">
-            <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+          <div class="counter-wrap hero-counter past-counter">
+            <span class="counter-label">Last Time Departed</span>
+            <div class="counter-grid" id="pastCounter">
+              <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            </div>
+            <div class="counter-meta">Elapsed symbolic time since the cycle began</div>
           </div>
-          <div class="counter-meta">Elapsed symbolic time since the cycle began</div>
         </div>
         <div class="counter-controls" aria-label="Playback controls">
           <button class="counter-control is-active" id="playControl" type="button">Play</button>
@@ -1368,6 +1403,7 @@
     const COLLISION_TRAVEL_END = 0.985;
     const COLLISION_COUNTER_RAMP_MS = 13000;
     let animationPlaying = true;
+    let animationLocked = false;
     let animationTimeMs = 0;
     let lastFrameTime = null;
     let animationFrameId = null;
@@ -1467,6 +1503,7 @@
       const visual = document.querySelector(".hero-visual");
       if (!visual) return;
       const rampDuration = COLLISION_COUNTER_RAMP_MS / COLLISION_CYCLE_MS;
+      const counterStartT = 0.43309;
 
       function setControlState() {
         document.getElementById("playControl")?.classList.toggle("is-active", animationPlaying);
@@ -1495,7 +1532,7 @@
         let collisionScaleX = 0.78;
         let collisionScaleY = 0.78;
         let counterYears = 0;
-        let pastYears = SYMBOLIC_YEARS * clamp(t, 0, 1);
+        let pastYears = SYMBOLIC_YEARS * clamp(t / counterStartT, 0, 1);
 
         if (t >= COLLISION_TRAVEL_START && t <= COLLISION_TRAVEL_END) {
           leftX = mix(-132, 132, travel);
@@ -1517,12 +1554,18 @@
           collisionScaleY = mix(0.82, 0.84, overlap);
         }
 
-        const counterStartT = 0.43309;
-
         if (t >= counterStartT) {
           const rampProgress = clamp((t - counterStartT) / rampDuration, 0, 1);
           const accelerated = 1 - Math.pow(1 - rampProgress, 1.6);
           counterYears = SYMBOLIC_YEARS * accelerated;
+          pastYears = SYMBOLIC_YEARS;
+        }
+
+        if (counterYears >= SYMBOLIC_YEARS) {
+          counterYears = SYMBOLIC_YEARS;
+          animationPlaying = false;
+          animationLocked = true;
+          setControlState();
         }
 
         visual.style.setProperty("--left-x", `${leftX}%`);
@@ -1554,17 +1597,20 @@
       }
 
       document.getElementById("playControl")?.addEventListener("click", () => {
+        if (animationLocked) return;
         animationPlaying = true;
         setControlState();
       });
 
       document.getElementById("pauseControl")?.addEventListener("click", () => {
+        if (animationLocked) return;
         animationPlaying = false;
         setControlState();
       });
 
       document.getElementById("stopControl")?.addEventListener("click", () => {
         animationPlaying = false;
+        animationLocked = false;
         animationTimeMs = 0;
         renderFrame(0);
         setControlState();
