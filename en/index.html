@@ -1227,6 +1227,7 @@
         <div class="counter-controls" aria-label="Playback controls">
           <button class="counter-control" id="togglePlaybackControl" type="button">Play</button>
           <button class="counter-control" id="resetControl" type="button">Reset</button>
+          <button class="counter-control" id="stopControl" type="button">Stop</button>
         </div>
         <div class="hero-counter-stack">
           <div class="counter-wrap hero-counter past-counter is-green">
@@ -1709,6 +1710,15 @@
       document.getElementById("togglePlaybackControl")?.addEventListener("click", () => {
         if (animationLocked) return;
         animationPlaying = !animationPlaying;
+        setControlState();
+      });
+
+      document.getElementById("stopControl")?.addEventListener("click", () => {
+        animationPlaying = false;
+        animationLocked = false;
+        animationTimeMs = 0;
+        contactTimeMs = null;
+        renderFrame(0);
         setControlState();
       });
 
