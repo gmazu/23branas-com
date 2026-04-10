@@ -1487,7 +1487,7 @@
       const cappedYears = Math.min(yearsValue, SYMBOLIC_YEARS);
       const yearsBillions = Math.max(0, cappedYears / 1000000000);
       const normalized = clamp(cappedYears / SYMBOLIC_YEARS, 0, 1);
-      const fastNormalized = 1 - Math.pow(1 - normalized, 3.2);
+      const fastNormalized = 1 - Math.pow(1 - normalized, 8);
       const targetMonth = targetNow.getMonth() + 1;
       const targetDay = targetNow.getDate();
       const targetHour = targetNow.getHours();

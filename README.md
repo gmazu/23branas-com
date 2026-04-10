@@ -29,9 +29,6 @@ La web funciona como una entrada visual y conceptual al proyecto:
 
 ## Pendientes conceptuales
 
-- documentar y eventualmente visualizar tres finales cosmologicos dentro de la narrativa del sitio:
-  - `Big Rip`
-  - `Big Freeze`
-  - `Bounce`
-- evaluar si esos finales pueden mostrarse como variantes visuales del panel central de colision
+- agregar una lectura del futuro del sistema, pero solo despues de calcularla con mas detalle
+- no forzar varios futuros posibles si el modelo termina apuntando a uno solo
 - seguir afinando la relacion entre texto, figura y lectura tipo paper
