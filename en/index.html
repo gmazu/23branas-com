@@ -1416,6 +1416,7 @@
     const COLLISION_TRAVEL_END = 0.985;
     const COLLISION_COUNTER_RAMP_MS = 13000;
     const POST_CONTACT_SPEED_FACTOR = 0.256;
+    const POST_PRESENT_SPEED_FACTOR = 0.012;
     const TRANSITION_YEARS = 6000000000;
     let animationPlaying = true;
     let animationLocked = false;
@@ -1575,7 +1576,12 @@
           const frozenProgress = clamp((contactCycleMs / COLLISION_CYCLE_MS - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
           const postMs = totalTimeMs - contactTimeMs;
           const remaining = Math.max(0, 1 - frozenProgress);
-          rawTravel = frozenProgress + remaining * clamp((postMs / (COLLISION_CYCLE_MS - contactCycleMs || 1)) * POST_CONTACT_SPEED_FACTOR, 0, 1);
+          const presentReachedMs = rampDuration;
+          const fastPhaseMs = Math.min(postMs, presentReachedMs);
+          const slowPhaseMs = Math.max(0, postMs - presentReachedMs);
+          const fastProgress = clamp((fastPhaseMs / (COLLISION_CYCLE_MS - contactCycleMs || 1)) * POST_CONTACT_SPEED_FACTOR, 0, 1);
+          const slowProgress = (slowPhaseMs / 1000) * POST_PRESENT_SPEED_FACTOR;
+          rawTravel = frozenProgress + remaining * Math.min(1, fastProgress + slowProgress);
         }
 
         let travel = rawTravel;
@@ -1630,8 +1636,8 @@
             const accelerated = 1 - Math.pow(1 - rampProgress, 1.6);
             counterYears = SYMBOLIC_YEARS * accelerated;
           } else {
-            const extraProgress = (elapsedAfterContact - rampDuration) / rampDuration;
-            counterYears = SYMBOLIC_YEARS * (1 + extraProgress);
+            const extraProgress = (elapsedAfterContact - rampDuration) / 1000;
+            counterYears = SYMBOLIC_YEARS + extraProgress;
           }
         }
 
