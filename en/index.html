@@ -809,8 +809,8 @@
       width: min(100%, 980px);
       margin: 16px auto 0;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 14px;
+      grid-template-columns: 1fr;
+      gap: 12px;
       align-items: start;
     }
 
@@ -821,20 +821,22 @@
     }
 
     .counter-controls {
-      display: grid;
+      display: flex;
       gap: 10px;
-      align-self: stretch;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .counter-control {
-      min-width: 92px;
-      padding: 12px 14px;
-      border-radius: 16px;
+      min-width: 78px;
+      padding: 9px 12px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.08);
       background: rgba(6, 7, 10, 0.74);
       color: var(--text);
       font-family: "IBM Plex Mono", monospace;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
@@ -850,6 +852,24 @@
     .counter-control.is-active {
       border-color: rgba(210,174,88,0.5);
       color: var(--gold);
+    }
+
+    .counter-control.is-pulsing {
+      animation: pulsePlay 1.4s ease-in-out infinite;
+      border-color: rgba(210,174,88,0.46);
+      color: var(--gold);
+      box-shadow: 0 0 0 0 rgba(210,174,88,0.24);
+    }
+
+    @keyframes pulsePlay {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(210,174,88,0.18);
+      }
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 0 8px rgba(210,174,88,0);
+      }
     }
 
     .timepanel-num-wrap {
@@ -895,6 +915,7 @@
       font-size: 0.68rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      text-align: center;
       position: relative;
       z-index: 1;
     }
@@ -927,6 +948,7 @@
       font-size: 0.68rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+      text-align: center;
     }
 
     .past-counter .counter-cell {
@@ -1110,12 +1132,8 @@
         padding: 22px 18px;
       }
 
-      .hero-counter-shell {
-        grid-template-columns: 1fr;
-      }
-
       .counter-controls {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        justify-content: center;
       }
 
       .hero-note,
@@ -1193,7 +1211,7 @@
       </article>
 
       <div class="visual-caption">
-        Departure, contact, transition to the present epoch, and continued slow separation of the medium.
+        Departure, contact, transition to the present epoch, and continued slow separation of the medium. We are living in a 2 3-Branes solution at the junction of two branes of a multiverse.
       </div>
       <aside class="hero-visual">
         <div class="hero-visual-stage" aria-hidden="true">
@@ -1206,9 +1224,13 @@
         <img src="../assets/img/preview-640.jpg" alt="Visual symbol of 3-Branas">
       </aside>
       <div class="hero-counter-shell">
+        <div class="counter-controls" aria-label="Playback controls">
+          <button class="counter-control" id="togglePlaybackControl" type="button">Play</button>
+          <button class="counter-control" id="resetControl" type="button">Reset</button>
+        </div>
         <div class="hero-counter-stack">
           <div class="counter-wrap hero-counter past-counter is-green">
-            <span class="counter-label">PRESENT TIME</span>
+            <span class="counter-label">TIME ELAPSED SINCE THE COLLISION OF UNIVERSES, ANCIENTLY CALLED BIGBANG, TODAY BIGCRUSH</span>
             <div class="counter-grid" id="counter">
               <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
@@ -1217,10 +1239,10 @@
               <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
             </div>
-            <div class="counter-meta">Symbolic time remaining before the framework closes into a readable form</div>
+            <div class="counter-meta">PRESENT TIME</div>
           </div>
           <div class="counter-wrap hero-counter past-counter">
-            <span class="counter-label">Last Time Departed</span>
+            <span class="counter-label">TIME ELAPSED BEFORE THE OLD BIGBANG AND THE NEW BIGCRUSH OF THE UNIVERSE WE LIVE IN</span>
             <div class="counter-grid" id="pastCounter">
               <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
@@ -1229,12 +1251,8 @@
               <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell seconds"><span class="counter-unit">sec</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
             </div>
-            <div class="counter-meta">Elapsed symbolic time since the cycle began</div>
+            <div class="counter-meta">LAST TIME DEPARTED</div>
           </div>
-        </div>
-      <div class="counter-controls" aria-label="Playback controls">
-          <button class="counter-control is-active" id="togglePlaybackControl" type="button">Pause</button>
-          <button class="counter-control" id="stopControl" type="button">Stop</button>
         </div>
       </div>
     </section>
@@ -1422,7 +1440,7 @@
     const POST_CONTACT_SPEED_FACTOR = 0.256;
     const POST_PRESENT_SPEED_FACTOR = 0.0012;
     const TRANSITION_YEARS = 6000000000;
-    let animationPlaying = true;
+    let animationPlaying = false;
     let animationLocked = false;
     let animationTimeMs = 0;
     let contactTimeMs = null;
@@ -1550,7 +1568,8 @@
       function setControlState() {
         const toggleButton = document.getElementById("togglePlaybackControl");
         if (!toggleButton) return;
-        toggleButton.classList.toggle("is-active", true);
+        toggleButton.classList.toggle("is-active", animationPlaying);
+        toggleButton.classList.toggle("is-pulsing", !animationPlaying);
         toggleButton.textContent = animationPlaying ? "Pause" : "Play";
       }
 
@@ -1693,11 +1712,12 @@
         setControlState();
       });
 
-      document.getElementById("stopControl")?.addEventListener("click", () => {
+      document.getElementById("resetControl")?.addEventListener("click", () => {
         animationPlaying = false;
         animationLocked = false;
         animationTimeMs = 0;
         contactTimeMs = null;
+        lastFrameTime = null;
         renderFrame(0);
         setControlState();
       });
