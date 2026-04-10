@@ -1415,7 +1415,8 @@
     const COLLISION_TRAVEL_START = 0.08;
     const COLLISION_TRAVEL_END = 0.985;
     const COLLISION_COUNTER_RAMP_MS = 13000;
-    const POST_CONTACT_SPEED_FACTOR = 0.5;
+    const POST_CONTACT_SPEED_FACTOR = 0.256;
+    const TRANSITION_YEARS = 6000000000;
     let animationPlaying = true;
     let animationLocked = false;
     let animationTimeMs = 0;
@@ -1479,7 +1480,7 @@
 
     function renderCollisionCounter(yearsValue, targetNow = new Date()) {
       const cappedYears = Math.min(yearsValue, SYMBOLIC_YEARS);
-      const years = Math.max(0, Math.round(cappedYears));
+      const yearsBillions = Math.max(0, cappedYears / 1000000000);
       const normalized = clamp(cappedYears / SYMBOLIC_YEARS, 0, 1);
       const targetMonth = targetNow.getMonth() + 1;
       const targetDay = targetNow.getDate();
@@ -1494,7 +1495,7 @@
       const secondScale = Math.max(0, Math.floor(mix(0, targetSecond, normalized)));
 
       document.getElementById("counter").innerHTML = `
-        <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
@@ -1504,7 +1505,7 @@
     }
 
     function renderPastCounter(yearsValue) {
-      const years = Math.max(0, Math.round(yearsValue));
+      const yearsBillions = Math.max(0, yearsValue / 1000000000);
       const normalized = clamp(yearsValue / SYMBOLIC_YEARS, 0, 1);
       const monthScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 84)) % 12;
       const dayScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 420)) % 30;
@@ -1513,7 +1514,7 @@
       const secondScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 16000)) % 60;
 
       document.getElementById("pastCounter").innerHTML = `
-        <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
@@ -1539,7 +1540,11 @@
       const visual = document.querySelector(".hero-visual");
       if (!visual) return;
       const rampDuration = COLLISION_COUNTER_RAMP_MS;
-      const contactDistanceThreshold = 58;
+      function getPostContactDurationMs() {
+        if (contactTimeMs === null) return null;
+        const contactCycleMs = contactTimeMs % COLLISION_CYCLE_MS;
+        return (COLLISION_CYCLE_MS - contactCycleMs) / POST_CONTACT_SPEED_FACTOR;
+      }
 
       function setControlState() {
         const toggleButton = document.getElementById("togglePlaybackControl");
@@ -1553,10 +1558,11 @@
         const cycleTimeMs = totalTimeMs % COLLISION_CYCLE_MS;
         const t = cycleTimeMs / COLLISION_CYCLE_MS;
         const baseRawTravel = clamp((t - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
+        const transitionProgress = clamp(TRANSITION_YEARS / SYMBOLIC_YEARS, 0, 1);
+        const transitionT = COLLISION_TRAVEL_START + (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START) * transitionProgress;
         const baseLeftX = mix(-132, 132, baseRawTravel);
         const baseRightX = mix(132, -132, baseRawTravel);
-        const baseCenterDistance = Math.abs(baseLeftX - baseRightX);
-        const hasContact = baseCenterDistance <= contactDistanceThreshold;
+        const hasContact = t >= transitionT;
 
         if (hasContact && contactTimeMs === null) {
           contactTimeMs = totalTimeMs;
@@ -1593,15 +1599,16 @@
         let collisionScaleY = 0.78;
         let counterYears = 0;
         let pastYears = contactTimeMs === null
-          ? SYMBOLIC_YEARS * clamp(baseRawTravel, 0, 1)
-          : SYMBOLIC_YEARS * clamp(contactCycleMs / COLLISION_CYCLE_MS, 0, 1);
+          ? TRANSITION_YEARS * clamp(baseRawTravel / transitionProgress, 0, 1)
+          : TRANSITION_YEARS;
 
-        if (t >= COLLISION_TRAVEL_START && t <= COLLISION_TRAVEL_END) {
+        const keepVisibleAfterContact = contactTimeMs !== null;
+        if ((t >= COLLISION_TRAVEL_START && t <= COLLISION_TRAVEL_END) || keepVisibleAfterContact) {
           leftX = mix(-132, 132, travel);
           rightX = mix(132, -132, travel);
 
           const fadeIn = smoothstep(0, 0.09, travel);
-          const visibility = fadeIn;
+          const visibility = keepVisibleAfterContact ? 1 : fadeIn;
 
           leftOpacity = rightOpacity = 0.68 * visibility;
 
@@ -1650,6 +1657,14 @@
 
         if (animationPlaying) {
           animationTimeMs += delta;
+          const postContactDurationMs = getPostContactDurationMs();
+          if (contactTimeMs !== null && postContactDurationMs !== null) {
+            const elapsedAfterContact = animationTimeMs - contactTimeMs;
+            if (elapsedAfterContact >= postContactDurationMs) {
+              animationTimeMs = 0;
+              contactTimeMs = null;
+            }
+          }
         }
 
         renderFrame(animationTimeMs);
