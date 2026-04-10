@@ -142,6 +142,19 @@
       background: rgba(210, 174, 88, 0.08);
     }
 
+    .nav-live-time {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.025);
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
     .hero {
       display: grid;
       grid-template-columns: 1fr;
@@ -788,6 +801,7 @@
         <div class="nav-sub">eCEL · Collision of 2 3-Branes · Working Draft</div>
       </div>
       <nav class="nav-links">
+        <span class="nav-live-time" id="navLiveTime">Hora actual --</span>
         <a class="nav-chip" href="../en/" lang="en" aria-label="English version">🇺🇸 EN</a>
       </nav>
     </header>
@@ -966,6 +980,20 @@
     function updateCounter() {
       const now = new Date();
       const { years, months, days, hours, minutes, seconds } = getCounterParts(now.getTime());
+      const navLiveTime = document.getElementById("navLiveTime");
+      if (navLiveTime) {
+        const datePart = [
+          String(now.getDate()).padStart(2, "0"),
+          String(now.getMonth() + 1).padStart(2, "0"),
+          now.getFullYear()
+        ].join("/");
+        const timePart = [
+          String(now.getHours()).padStart(2, "0"),
+          String(now.getMinutes()).padStart(2, "0"),
+          String(now.getSeconds()).padStart(2, "0")
+        ].join(":");
+        navLiveTime.textContent = `${datePart} ${timePart}`;
+      }
       document.getElementById("presentTimePanel").innerHTML = `
         <div class="timepanel-cell"><span class="timepanel-unit">mes</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getMonth() + 1).padStart(2, "0")}</span></span></div>
         <div class="timepanel-cell"><span class="timepanel-unit">día</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getDate()).padStart(2, "0")}</span></span></div>

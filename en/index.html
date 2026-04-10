@@ -142,6 +142,19 @@
       background: rgba(210, 174, 88, 0.08);
     }
 
+    .nav-live-time {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.025);
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
     .hero {
       display: grid;
       grid-template-columns: 1fr;
@@ -1128,6 +1141,7 @@
         <div class="nav-sub">eCEL · Collision of 2 3-Branes · Working Draft</div>
       </div>
       <nav class="nav-links">
+        <span class="nav-live-time" id="navLiveTime">Present time --</span>
         <a class="nav-chip" href="../es/" lang="es" aria-label="Spanish version">🇨🇱 ES</a>
       </nav>
     </header>
@@ -1439,6 +1453,20 @@
 
     function renderPresentTime() {
       const now = new Date();
+      const navLiveTime = document.getElementById("navLiveTime");
+      if (navLiveTime) {
+        const datePart = [
+          String(now.getDate()).padStart(2, "0"),
+          String(now.getMonth() + 1).padStart(2, "0"),
+          now.getFullYear()
+        ].join("/");
+        const timePart = [
+          String(now.getHours()).padStart(2, "0"),
+          String(now.getMinutes()).padStart(2, "0"),
+          String(now.getSeconds()).padStart(2, "0")
+        ].join(":");
+        navLiveTime.textContent = `${datePart} ${timePart}`;
+      }
       document.getElementById("presentTimePanel").innerHTML = `
         <div class="timepanel-cell"><span class="timepanel-unit">month</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getMonth() + 1).padStart(2, "0")}</span></span></div>
         <div class="timepanel-cell"><span class="timepanel-unit">day</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getDate()).padStart(2, "0")}</span></span></div>
@@ -1449,14 +1477,21 @@
       `;
     }
 
-    function renderCollisionCounter(yearsValue) {
-      const years = Math.max(0, Math.round(yearsValue));
-      const normalized = clamp(yearsValue / SYMBOLIC_YEARS, 0, 1);
-      const monthScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 240)) % 12;
-      const dayScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 1800)) % 30;
-      const hourScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 9600)) % 24;
-      const minuteScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 36000)) % 60;
-      const secondScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 54000)) % 60;
+    function renderCollisionCounter(yearsValue, targetNow = new Date()) {
+      const cappedYears = Math.min(yearsValue, SYMBOLIC_YEARS);
+      const years = Math.max(0, Math.round(cappedYears));
+      const normalized = clamp(cappedYears / SYMBOLIC_YEARS, 0, 1);
+      const targetMonth = targetNow.getMonth() + 1;
+      const targetDay = targetNow.getDate();
+      const targetHour = targetNow.getHours();
+      const targetMinute = targetNow.getMinutes();
+      const targetSecond = targetNow.getSeconds();
+
+      const monthScale = Math.max(0, Math.floor(mix(0, targetMonth, normalized)));
+      const dayScale = Math.max(0, Math.floor(mix(0, targetDay, normalized)));
+      const hourScale = Math.max(0, Math.floor(mix(0, targetHour, normalized)));
+      const minuteScale = Math.max(0, Math.floor(mix(0, targetMinute, normalized)));
+      const secondScale = Math.max(0, Math.floor(mix(0, targetSecond, normalized)));
 
       document.getElementById("counter").innerHTML = `
         <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
@@ -1514,6 +1549,7 @@
       }
 
       function renderFrame(totalTimeMs) {
+        const browserNow = new Date();
         const cycleTimeMs = totalTimeMs % COLLISION_CYCLE_MS;
         const t = cycleTimeMs / COLLISION_CYCLE_MS;
         const baseRawTravel = clamp((t - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
@@ -1603,7 +1639,7 @@
         visual.style.setProperty("--collision-opacity", collisionOpacity.toFixed(3));
         visual.style.setProperty("--collision-scale-x", collisionScaleX.toFixed(3));
         visual.style.setProperty("--collision-scale-y", collisionScaleY.toFixed(3));
-        renderCollisionCounter(counterYears);
+        renderCollisionCounter(counterYears, browserNow);
         renderPastCounter(pastYears);
       }
 
