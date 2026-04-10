@@ -986,6 +986,10 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
+    .counter-cell.counter-cell-wide {
+      min-width: 132px;
+    }
+
     .counter-num {
       display: block;
       font-family: "IBM Plex Mono", monospace;
@@ -1007,6 +1011,7 @@
       font-size: 0.58rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .counter-num-wrap {
@@ -1187,6 +1192,9 @@
         </div>
       </article>
 
+      <div class="visual-caption">
+        Departure, contact, transition to the present epoch, and continued slow separation of the medium.
+      </div>
       <aside class="hero-visual">
         <div class="hero-visual-stage" aria-hidden="true">
           <div class="hero-visual-field">
@@ -1197,16 +1205,12 @@
         </div>
         <img src="../assets/img/preview-640.jpg" alt="Visual symbol of 3-Branas">
       </aside>
-      <div class="visual-caption">
-        Symbolic interface of the project. The visual reading matters:
-        contact, coupling, tension, and reorganization of the medium.
-      </div>
       <div class="hero-counter-shell">
         <div class="hero-counter-stack">
           <div class="counter-wrap hero-counter past-counter is-green">
             <span class="counter-label">PRESENT TIME</span>
             <div class="counter-grid" id="counter">
-              <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
@@ -1218,7 +1222,7 @@
           <div class="counter-wrap hero-counter past-counter">
             <span class="counter-label">Last Time Departed</span>
             <div class="counter-grid" id="pastCounter">
-              <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
@@ -1416,7 +1420,7 @@
     const COLLISION_TRAVEL_END = 0.985;
     const COLLISION_COUNTER_RAMP_MS = 13000;
     const POST_CONTACT_SPEED_FACTOR = 0.256;
-    const POST_PRESENT_SPEED_FACTOR = 0.012;
+    const POST_PRESENT_SPEED_FACTOR = 0.0012;
     const TRANSITION_YEARS = 6000000000;
     let animationPlaying = true;
     let animationLocked = false;
@@ -1496,7 +1500,7 @@
       const secondScale = Math.max(0, Math.floor(mix(0, targetSecond, normalized)));
 
       document.getElementById("counter").innerHTML = `
-        <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
+        <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
@@ -1515,7 +1519,7 @@
       const secondScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 16000)) % 60;
 
       document.getElementById("pastCounter").innerHTML = `
-        <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
+        <div class="counter-cell counter-cell-wide"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
