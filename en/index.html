@@ -1192,7 +1192,7 @@
           <div class="counter-wrap hero-counter past-counter is-green">
             <span class="counter-label">PRESENT TIME</span>
             <div class="counter-grid" id="counter">
-              <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
@@ -1204,7 +1204,7 @@
           <div class="counter-wrap hero-counter past-counter">
             <span class="counter-label">Last Time Departed</span>
             <div class="counter-grid" id="pastCounter">
-              <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
               <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
@@ -1214,9 +1214,8 @@
             <div class="counter-meta">Elapsed symbolic time since the cycle began</div>
           </div>
         </div>
-        <div class="counter-controls" aria-label="Playback controls">
-          <button class="counter-control is-active" id="playControl" type="button">Play</button>
-          <button class="counter-control" id="pauseControl" type="button">Pause</button>
+      <div class="counter-controls" aria-label="Playback controls">
+          <button class="counter-control is-active" id="togglePlaybackControl" type="button">Pause</button>
           <button class="counter-control" id="stopControl" type="button">Stop</button>
         </div>
       </div>
@@ -1402,9 +1401,11 @@
     const COLLISION_TRAVEL_START = 0.08;
     const COLLISION_TRAVEL_END = 0.985;
     const COLLISION_COUNTER_RAMP_MS = 13000;
+    const POST_CONTACT_SPEED_FACTOR = 0.5;
     let animationPlaying = true;
     let animationLocked = false;
     let animationTimeMs = 0;
+    let contactTimeMs = null;
     let lastFrameTime = null;
     let animationFrameId = null;
     const UNITS_IN_SECONDS = {
@@ -1458,7 +1459,7 @@
       const secondScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 54000)) % 60;
 
       document.getElementById("counter").innerHTML = `
-        <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
@@ -1477,7 +1478,7 @@
       const secondScale = yearsValue <= 0 ? 0 : Math.floor((normalized * 16000)) % 60;
 
       document.getElementById("pastCounter").innerHTML = `
-        <div class="counter-cell"><span class="counter-unit">years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">billion years</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("en-US")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">months</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">days</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
         <div class="counter-cell"><span class="counter-unit">hours</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
@@ -1502,16 +1503,39 @@
     function setupHeroCollision() {
       const visual = document.querySelector(".hero-visual");
       if (!visual) return;
-      const rampDuration = COLLISION_COUNTER_RAMP_MS / COLLISION_CYCLE_MS;
-      const counterStartT = 0.43309;
+      const rampDuration = COLLISION_COUNTER_RAMP_MS;
+      const contactDistanceThreshold = 58;
 
       function setControlState() {
-        document.getElementById("playControl")?.classList.toggle("is-active", animationPlaying);
-        document.getElementById("pauseControl")?.classList.toggle("is-active", !animationPlaying);
+        const toggleButton = document.getElementById("togglePlaybackControl");
+        if (!toggleButton) return;
+        toggleButton.classList.toggle("is-active", true);
+        toggleButton.textContent = animationPlaying ? "Pause" : "Play";
       }
 
-      function renderFrame(t) {
-        const rawTravel = clamp((t - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
+      function renderFrame(totalTimeMs) {
+        const cycleTimeMs = totalTimeMs % COLLISION_CYCLE_MS;
+        const t = cycleTimeMs / COLLISION_CYCLE_MS;
+        const baseRawTravel = clamp((t - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
+        const baseLeftX = mix(-132, 132, baseRawTravel);
+        const baseRightX = mix(132, -132, baseRawTravel);
+        const baseCenterDistance = Math.abs(baseLeftX - baseRightX);
+        const hasContact = baseCenterDistance <= contactDistanceThreshold;
+
+        if (hasContact && contactTimeMs === null) {
+          contactTimeMs = totalTimeMs;
+        }
+
+        let rawTravel = baseRawTravel;
+        const contactCycleMs = contactTimeMs === null ? null : (contactTimeMs % COLLISION_CYCLE_MS);
+
+        if (contactTimeMs !== null && totalTimeMs >= contactTimeMs) {
+          const frozenProgress = clamp((contactCycleMs / COLLISION_CYCLE_MS - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
+          const postMs = totalTimeMs - contactTimeMs;
+          const remaining = Math.max(0, 1 - frozenProgress);
+          rawTravel = frozenProgress + remaining * clamp((postMs / (COLLISION_CYCLE_MS - contactCycleMs || 1)) * POST_CONTACT_SPEED_FACTOR, 0, 1);
+        }
+
         let travel = rawTravel;
 
         // Keep the initial approach almost linear and only slow down close to contact.
@@ -1532,7 +1556,9 @@
         let collisionScaleX = 0.78;
         let collisionScaleY = 0.78;
         let counterYears = 0;
-        let pastYears = SYMBOLIC_YEARS * clamp(t / counterStartT, 0, 1);
+        let pastYears = contactTimeMs === null
+          ? SYMBOLIC_YEARS * clamp(baseRawTravel, 0, 1)
+          : SYMBOLIC_YEARS * clamp(contactCycleMs / COLLISION_CYCLE_MS, 0, 1);
 
         if (t >= COLLISION_TRAVEL_START && t <= COLLISION_TRAVEL_END) {
           leftX = mix(-132, 132, travel);
@@ -1554,18 +1580,16 @@
           collisionScaleY = mix(0.82, 0.84, overlap);
         }
 
-        if (t >= counterStartT) {
-          const rampProgress = clamp((t - counterStartT) / rampDuration, 0, 1);
-          const accelerated = 1 - Math.pow(1 - rampProgress, 1.6);
-          counterYears = SYMBOLIC_YEARS * accelerated;
-          pastYears = SYMBOLIC_YEARS;
-        }
-
-        if (counterYears >= SYMBOLIC_YEARS) {
-          counterYears = SYMBOLIC_YEARS;
-          animationPlaying = false;
-          animationLocked = true;
-          setControlState();
+        if (contactTimeMs !== null && totalTimeMs >= contactTimeMs) {
+          const elapsedAfterContact = totalTimeMs - contactTimeMs;
+          if (elapsedAfterContact <= rampDuration) {
+            const rampProgress = elapsedAfterContact / rampDuration;
+            const accelerated = 1 - Math.pow(1 - rampProgress, 1.6);
+            counterYears = SYMBOLIC_YEARS * accelerated;
+          } else {
+            const extraProgress = (elapsedAfterContact - rampDuration) / rampDuration;
+            counterYears = SYMBOLIC_YEARS * (1 + extraProgress);
+          }
         }
 
         visual.style.setProperty("--left-x", `${leftX}%`);
@@ -1589,22 +1613,16 @@
         lastFrameTime = now;
 
         if (animationPlaying) {
-          animationTimeMs = (animationTimeMs + delta) % COLLISION_CYCLE_MS;
+          animationTimeMs += delta;
         }
 
-        renderFrame(animationTimeMs / COLLISION_CYCLE_MS);
+        renderFrame(animationTimeMs);
         animationFrameId = requestAnimationFrame(frame);
       }
 
-      document.getElementById("playControl")?.addEventListener("click", () => {
+      document.getElementById("togglePlaybackControl")?.addEventListener("click", () => {
         if (animationLocked) return;
-        animationPlaying = true;
-        setControlState();
-      });
-
-      document.getElementById("pauseControl")?.addEventListener("click", () => {
-        if (animationLocked) return;
-        animationPlaying = false;
+        animationPlaying = !animationPlaying;
         setControlState();
       });
 
@@ -1612,6 +1630,7 @@
         animationPlaying = false;
         animationLocked = false;
         animationTimeMs = 0;
+        contactTimeMs = null;
         renderFrame(0);
         setControlState();
       });
