@@ -86,9 +86,41 @@ if [[ "${has_uncommitted}" == true ]]; then
 fi
 
 if [[ "${push_changes}" == true ]]; then
-  git push -u origin "${branch}"
-  echo
-  echo "Published to origin/${branch}"
+  push_log="$(mktemp)"
+  if git push -u origin "${branch}" >"${push_log}" 2>&1; then
+    cat "${push_log}"
+    rm -f "${push_log}"
+    echo
+    echo "Published to origin/${branch}"
+  else
+    push_output="$(cat "${push_log}")"
+    rm -f "${push_log}"
+    echo "${push_output}" >&2
+    echo >&2
+
+    if [[ "${push_output}" == *"fetch first"* || "${push_output}" == *"non-fast-forward"* ]]; then
+      git fetch origin "${branch}" >/dev/null 2>&1 || true
+      echo "Push rechazado: la rama remota avanzo y tu copia local no la ha integrado todavia." >&2
+      echo "Cambiar GitHub Pages o el dominio no crea commits de codigo por si solo." >&2
+      echo "Si no tocaste codigo en GitHub, lo mas probable es que el remoto haya recibido un commit desde otra carpeta, otro repo local o una referencia desactualizada." >&2
+      echo >&2
+      echo "Opciones:" >&2
+      echo "1. Integrar lo remoto y volver a publicar:" >&2
+      echo "   git pull --rebase origin ${branch}" >&2
+      echo "   ./git_publish.sh --yes \"${message:-update}\"" >&2
+      echo >&2
+      echo "2. Revisar primero que cambio en el remoto:" >&2
+      echo "   git status -sb" >&2
+      echo "   git log --oneline --left-right --graph HEAD...origin/${branch}" >&2
+      echo >&2
+      echo "3. Si no hay cambios locales nuevos y solo faltaba subir commits ya hechos:" >&2
+      echo "   git push origin ${branch}" >&2
+    else
+      echo "Push fallido. Revisa el mensaje de git de arriba." >&2
+    fi
+
+    exit 1
+  fi
 else
   echo "Committed locally on ${branch}"
 fi
