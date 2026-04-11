@@ -1503,7 +1503,8 @@
     }
 
     function renderCollisionCounter(yearsValue, targetNow = new Date()) {
-      const cappedYears = Math.min(yearsValue, SYMBOLIC_YEARS);
+      const reachedPresent = yearsValue >= SYMBOLIC_YEARS;
+      const cappedYears = reachedPresent ? SYMBOLIC_YEARS : Math.min(yearsValue, SYMBOLIC_YEARS);
       const yearsBillions = Math.max(0, cappedYears / 1000000000);
       const normalized = clamp(cappedYears / SYMBOLIC_YEARS, 0, 1);
       const targetMonth = targetNow.getMonth() + 1;
@@ -1511,7 +1512,6 @@
       const targetHour = targetNow.getHours();
       const targetMinute = targetNow.getMinutes();
       const targetSecond = targetNow.getSeconds();
-      const reachedPresent = cappedYears >= SYMBOLIC_YEARS;
 
       const monthScale = reachedPresent ? targetMonth : Math.floor((normalized * 240)) % 12;
       const dayScale = reachedPresent ? targetDay : Math.floor((normalized * 1800)) % 30;
@@ -1596,12 +1596,9 @@
           const frozenProgress = clamp((contactCycleMs / COLLISION_CYCLE_MS - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
           const postMs = totalTimeMs - contactTimeMs;
           const remaining = Math.max(0, 1 - frozenProgress);
-          const presentReachedMs = rampDuration;
-          const fastPhaseMs = Math.min(postMs, presentReachedMs);
-          const slowPhaseMs = Math.max(0, postMs - presentReachedMs);
+          const fastPhaseMs = Math.min(postMs, rampDuration);
           const fastProgress = clamp((fastPhaseMs / (COLLISION_CYCLE_MS - contactCycleMs || 1)) * POST_CONTACT_SPEED_FACTOR, 0, 1);
-          const slowProgress = (slowPhaseMs / 1000) * POST_PRESENT_SPEED_FACTOR;
-          rawTravel = frozenProgress + remaining * Math.min(1, fastProgress + slowProgress);
+          rawTravel = frozenProgress + remaining * fastProgress;
         }
 
         let travel = rawTravel;
@@ -1656,8 +1653,7 @@
             const accelerated = 1 - Math.pow(1 - rampProgress, 1.6);
             counterYears = SYMBOLIC_YEARS * accelerated;
           } else {
-            const extraProgress = (elapsedAfterContact - rampDuration) / 1000;
-            counterYears = SYMBOLIC_YEARS + extraProgress;
+            counterYears = SYMBOLIC_YEARS;
           }
         }
 
