@@ -249,6 +249,17 @@
       border: 1px solid rgba(255,255,255,0.05);
     }
 
+    .metric-link {
+      display: block;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .metric-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(210, 174, 88, 0.34);
+      background: rgba(210, 174, 88, 0.06);
+    }
+
     .metric-label {
       display: block;
       color: var(--muted);
@@ -263,6 +274,59 @@
       display: block;
       font-size: 1.02rem;
       line-height: 1.35;
+    }
+
+    .runic-mark {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      min-width: 2.2ch;
+      min-height: 2.2em;
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .runic-glyph {
+      display: block;
+    }
+
+    .runic-dot {
+      position: absolute;
+      width: 0.14em;
+      height: 0.14em;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px rgba(210, 174, 88, 0.28);
+    }
+
+    .runic-dot.top {
+      top: -0.08em;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .runic-dot.top-left {
+      top: 0.18em;
+      left: calc(50% - 0.15em);
+      transform: translateX(-50%);
+    }
+
+    .runic-dot.top-right {
+      top: 0.18em;
+      left: calc(50% + 0.15em);
+      transform: translateX(-50%);
+    }
+
+    .runic-dot.bottom-left {
+      bottom: 0.18em;
+      left: calc(50% - 0.28em);
+      transform: translateX(-50%);
+    }
+
+    .runic-dot.bottom-right {
+      bottom: 0.18em;
+      left: calc(50% + 0.28em);
+      transform: translateX(-50%);
     }
 
     .hero-visual {
@@ -406,6 +470,7 @@
     .span-4 { grid-column: span 4; }
     .span-6 { grid-column: span 6; }
     .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
 
     .panel h2 {
       margin: 0 0 14px;
@@ -492,6 +557,150 @@
       line-height: 1.55;
     }
 
+    .diagram-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 22px;
+      align-items: start;
+      margin-top: 16px;
+    }
+
+    .figure-box,
+    .summary-box {
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .figure-box {
+      padding: 18px;
+    }
+
+    .figure-stage {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ece8e0;
+    }
+
+    .figure-stage img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .marker {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 34%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .marker::before {
+      content: none;
+    }
+
+    .marker::after {
+      content: none;
+    }
+
+    .marker-id,
+    .summary-id {
+      font-family: "IBM Plex Mono", monospace;
+    }
+
+    .marker-id {
+      width: 24px;
+      height: 24px;
+      flex: 0 0 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(6, 7, 10, 0.9);
+      border: 1px solid rgba(210, 174, 88, 0.4);
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .marker-label {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(6, 7, 10, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 0.8rem;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .marker--1 { left: 56%; top: 15%; }
+    .marker--2 { left: 33%; top: 57%; }
+    .marker--3 { left: 70%; top: 50%; }
+    .marker--4 { left: 42%; top: 63%; }
+    .marker--5 { left: 63%; top: 67%; }
+    .marker--6 { left: 56%; top: 82%; }
+
+    .summary-box {
+      padding: 22px;
+    }
+
+    .summary-title {
+      margin: 0 0 16px;
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .summary-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .summary-id {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(210, 174, 88, 0.14);
+      color: var(--gold);
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+
+    .summary-item h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .summary-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
     .counter-wrap {
       margin-top: 14px;
       padding: 14px;
@@ -506,6 +715,17 @@
         0 16px 40px rgba(0, 0, 0, 0.28);
       position: relative;
       overflow: hidden;
+    }
+
+    .counter-wrap.past-counter {
+      border: 1px solid rgba(210, 174, 88, 0.18);
+      background:
+        linear-gradient(180deg, rgba(14, 11, 5, 0.92), rgba(20, 15, 8, 0.98)),
+        radial-gradient(circle at 50% 50%, rgba(210, 174, 88, 0.08), transparent 55%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 0 28px rgba(210, 174, 88, 0.08),
+        0 16px 40px rgba(0, 0, 0, 0.28);
     }
 
     .timepanel-wrap {
@@ -580,6 +800,78 @@
       text-transform: uppercase;
     }
 
+    .hero-counter {
+      width: min(100%, 760px);
+      margin: 16px auto 0;
+    }
+
+    .hero-counter-shell {
+      width: min(100%, 980px);
+      margin: 16px auto 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .hero-counter-stack {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .counter-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .counter-control {
+      min-width: 78px;
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(6, 7, 10, 0.74);
+      color: var(--text);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 180ms ease;
+    }
+
+    .counter-control:hover {
+      transform: translateY(-1px);
+      border-color: rgba(210,174,88,0.4);
+      background: rgba(210,174,88,0.08);
+    }
+
+    .counter-control.is-active {
+      border-color: rgba(210,174,88,0.5);
+      color: var(--gold);
+    }
+
+    .counter-control.is-pulsing {
+      animation: pulsePlay 1.4s ease-in-out infinite;
+      border-color: rgba(210,174,88,0.46);
+      color: var(--gold);
+      box-shadow: 0 0 0 0 rgba(210,174,88,0.24);
+    }
+
+    @keyframes pulsePlay {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(210,174,88,0.18);
+      }
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 0 8px rgba(210,174,88,0);
+      }
+    }
+
     .timepanel-num-wrap {
       min-height: 2.1em;
       display: grid;
@@ -623,8 +915,13 @@
       font-size: 0.68rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      text-align: center;
       position: relative;
       z-index: 1;
+    }
+
+    .past-counter .counter-label {
+      color: rgba(210, 174, 88, 0.84);
     }
 
     .counter {
@@ -651,6 +948,46 @@
       font-size: 0.68rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+      text-align: center;
+    }
+
+    .past-counter .counter-cell {
+      border: 1px solid rgba(210, 174, 88, 0.14);
+      background: linear-gradient(180deg, rgba(16, 13, 8, 0.92), rgba(0, 0, 0, 0.72));
+    }
+
+    .past-counter .counter-num {
+      color: #e4c26d;
+      text-shadow:
+        0 0 8px rgba(210, 174, 88, 0.45),
+        0 0 18px rgba(210, 174, 88, 0.2);
+    }
+
+    .past-counter.is-green {
+      border: 1px solid rgba(171, 255, 184, 0.16);
+      background:
+        linear-gradient(180deg, rgba(4, 10, 8, 0.94), rgba(7, 16, 12, 0.98)),
+        radial-gradient(circle at 50% 50%, rgba(171, 255, 184, 0.07), transparent 58%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 0 26px rgba(171, 255, 184, 0.08),
+        0 16px 40px rgba(0, 0, 0, 0.26);
+    }
+
+    .past-counter.is-green .counter-label {
+      color: rgba(171, 255, 184, 0.82);
+    }
+
+    .past-counter.is-green .counter-cell {
+      border: 1px solid rgba(171, 255, 184, 0.12);
+      background: linear-gradient(180deg, rgba(8, 16, 12, 0.92), rgba(0, 0, 0, 0.7));
+    }
+
+    .past-counter.is-green .counter-num {
+      color: #c8ffd0;
+      text-shadow:
+        0 0 8px rgba(171, 255, 184, 0.55),
+        0 0 18px rgba(171, 255, 184, 0.22);
     }
 
 
@@ -669,6 +1006,10 @@
       background: linear-gradient(180deg, rgba(8, 10, 16, 0.92), rgba(0, 0, 0, 0.72));
       text-align: center;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .counter-cell.counter-cell-wide {
+      min-width: 132px;
     }
 
     .counter-num {
@@ -692,6 +1033,7 @@
       font-size: 0.58rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .counter-num-wrap {
@@ -751,6 +1093,10 @@
         grid-template-columns: 1fr;
       }
 
+      .diagram-layout {
+        grid-template-columns: 1fr;
+      }
+
       .span-4,
       .span-5,
       .span-6,
@@ -786,9 +1132,26 @@
         padding: 22px 18px;
       }
 
+      .counter-controls {
+        justify-content: center;
+      }
+
       .hero-note,
       .cards {
         grid-template-columns: 1fr;
+      }
+
+      .figure-box {
+        padding: 12px;
+      }
+
+      .marker {
+        max-width: 44%;
+      }
+
+      .marker-label {
+        font-size: 0.72rem;
+        white-space: normal;
       }
     }
   </style>
@@ -798,11 +1161,11 @@
     <header class="nav">
       <div class="nav-brand">
         <div class="nav-title">3Branas</div>
-        <div class="nav-sub">eCEL · Collision of 2 3-Branes · Working Draft</div>
+        <div class="nav-sub">eCEL · Colisión de 2 3-Branas · Borrador de trabajo</div>
       </div>
       <nav class="nav-links">
         <span class="nav-live-time" id="navLiveTime">Hora actual --</span>
-        <a class="nav-chip" href="../en/" lang="en" aria-label="English version">🇺🇸 EN</a>
+        <a class="nav-chip" href="../en/" lang="en" aria-label="Versión en inglés">🇺🇸 EN</a>
       </nav>
     </header>
 
@@ -820,21 +1183,36 @@
         </p>
 
         <div class="hero-note">
-          <div class="metric">
-            <span class="metric-label">Marco</span>
-            <span class="metric-value">3Branas + eCEL + GRF</span>
-          </div>
-          <div class="metric">
-            <span class="metric-label">Rama viva</span>
-            <span class="metric-value">Colisión de 2 3-Branas</span>
-          </div>
-          <div class="metric">
-            <span class="metric-label">Modo</span>
-            <span class="metric-value">Borrador de trabajo, no versión final</span>
-          </div>
+          <a class="metric metric-link" href="../en/push.html" aria-label="Abrir página de matriz de empuje">
+            <span class="metric-label">Empuje</span>
+            <span class="metric-value runic-mark">
+              <span class="runic-glyph">ᚱ</span>
+              <span class="runic-dot top"></span>
+            </span>
+          </a>
+          <a class="metric metric-link" href="../en/external-confinement.html" aria-label="Abrir página de matriz de confinamiento">
+            <span class="metric-label">Confinamiento</span>
+            <span class="metric-value runic-mark">
+              <span class="runic-glyph">ᚱ</span>
+              <span class="runic-dot top-left"></span>
+              <span class="runic-dot top-right"></span>
+            </span>
+          </a>
+          <a class="metric metric-link" href="../en/rotation.html" aria-label="Abrir página de matriz de rotación">
+            <span class="metric-label">Rotación</span>
+            <span class="metric-value runic-mark">
+              <span class="runic-glyph">ᚱ</span>
+              <span class="runic-dot top"></span>
+              <span class="runic-dot top-left"></span>
+              <span class="runic-dot top-right"></span>
+            </span>
+          </a>
         </div>
       </article>
 
+      <div class="visual-caption">
+        Partida, contacto, transición a la época presente y separación lenta continua del medio. Vivimos en una solución de 2 3-Branas en la juntura de dos branas de un multiverso.
+      </div>
       <aside class="hero-visual">
         <div class="hero-visual-stage" aria-hidden="true">
           <div class="hero-visual-field">
@@ -845,9 +1223,38 @@
         </div>
         <img src="../assets/img/preview-640.jpg" alt="Símbolo visual de 3-Branas">
       </aside>
-      <div class="visual-caption">
-        Interfaz simbólica del proyecto. La lectura visual importa:
-        contacto, acoplamiento, tensión y reorganización del medio.
+      <div class="hero-counter-shell">
+        <div class="counter-controls" aria-label="Controles de reproducción">
+          <button class="counter-control" id="togglePlaybackControl" type="button">Reproducir</button>
+          <button class="counter-control" id="resetControl" type="button">Reiniciar</button>
+          <button class="counter-control" id="stopControl" type="button">Detener</button>
+        </div>
+        <div class="hero-counter-stack">
+          <div class="counter-wrap hero-counter past-counter is-green">
+            <span class="counter-label">TIEMPO TRANSCURRIDO DESDE LA COLISIÓN DE UNIVERSOS, ANTIGUAMENTE LLAMADA BIGBANG, HOY BIGCRUSH</span>
+            <div class="counter-grid" id="counter">
+              <div class="counter-cell counter-cell-wide"><span class="counter-unit">mil millones de años</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">meses</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">días</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">horas</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell seconds"><span class="counter-unit">seg</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            </div>
+            <div class="counter-meta">TIEMPO PRESENTE</div>
+          </div>
+          <div class="counter-wrap hero-counter past-counter">
+            <span class="counter-label">TIEMPO TRANSCURRIDO ANTES DEL ANTIGUO BIGBANG Y DEL NUEVO BIGCRUSH DEL UNIVERSO EN EL QUE VIVIMOS</span>
+            <div class="counter-grid" id="pastCounter">
+              <div class="counter-cell counter-cell-wide"><span class="counter-unit">mil millones de años</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">meses</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">días</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">horas</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+              <div class="counter-cell seconds"><span class="counter-unit">seg</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
+            </div>
+            <div class="counter-meta">ÚLTIMO TIEMPO PARTIDO</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -886,24 +1293,103 @@
             <div class="timepanel-cell"><span class="timepanel-unit">seg</span><span class="timepanel-num-wrap"><span class="timepanel-num">--</span></span></div>
           </div>
         </div>
-        <div class="counter-wrap">
-          <span class="counter-label">Cuenta regresiva simbólica</span>
-          <div class="counter-grid" id="counter">
-            <div class="counter-cell"><span class="counter-unit">años</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">meses</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">días</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-            <div class="counter-cell"><span class="counter-unit">horas</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-          <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-          <div class="counter-cell seconds"><span class="counter-unit">seg</span><span class="counter-num-wrap"><span class="counter-num">--</span></span></div>
-        </div>
-          <div class="counter-meta">Tiempo simbólico restante antes de que el marco cierre en una forma legible</div>
-        </div>
         <div class="status-row">
           <span class="status-chip">Santiago, Chile</span>
           <span class="status-chip">MMXXVI</span>
           <span class="status-chip">Borrador de trabajo</span>
         </div>
       </aside>
+    </section>
+
+    <section class="grid" id="diagram">
+      <article class="panel span-12">
+        <span class="card-tag">Figura de trabajo</span>
+        <h2>Diagrama Materia / Antimateria</h2>
+        <p>
+          Lectura anotada del sketch vertical: gota de antimateria, universo de
+          materia, ancho observable y no observado, frentes de propagación y
+          región del observador entre frentes.
+        </p>
+        <div class="diagram-layout">
+          <div class="figure-box">
+            <div class="figure-stage">
+              <img src="../assets/img/diagram-work.jpg" alt="Diagrama de trabajo anotado">
+              <div class="marker marker--1">
+                <span class="marker-id">1</span>
+                <span class="marker-label">Gota de antimateria</span>
+              </div>
+              <div class="marker marker--2">
+                <span class="marker-id">2</span>
+                <span class="marker-label">Universo de materia</span>
+              </div>
+              <div class="marker marker--3">
+                <span class="marker-id">3</span>
+                <span class="marker-label">Ancho observado / no observado</span>
+              </div>
+              <div class="marker marker--4">
+                <span class="marker-id">4</span>
+                <span class="marker-label">Primer frente</span>
+              </div>
+              <div class="marker marker--5">
+                <span class="marker-id">5</span>
+                <span class="marker-label">Frente medido</span>
+              </div>
+              <div class="marker marker--6">
+                <span class="marker-id">6</span>
+                <span class="marker-label">Región del observador entre frentes</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="summary-box">
+            <div class="summary-title">Resumen de lectura</div>
+            <div class="summary-list">
+              <article class="summary-item">
+                <div class="summary-id">1</div>
+                <div>
+                  <h3>Gota de antimateria</h3>
+                  <p>La gota superior se lee como el régimen de antimateria entrando o acoplándose con la estructura inferior.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">2</div>
+                <div>
+                  <h3>Universo de materia</h3>
+                  <p>El campo tipo océano que porta la onda visible se lee como el universo de materia.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">3</div>
+                <div>
+                  <h3>Ancho observado / no observado</h3>
+                  <p>El ancho no se lee como un solo universo uniforme. Un sector corresponde al universo observable, mientras la extensión restante pertenece al universo no observado.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">4</div>
+                <div>
+                  <h3>Primer frente</h3>
+                  <p>Un primer frente de propagación aparece cerca del centro y puede definir el régimen más rápido.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">5</div>
+                <div>
+                  <h3>Frente medido</h3>
+                  <p>Un segundo frente es el que se mide efectivamente, lo que ayuda a explicar por qué se infieren dos velocidades aparentes.</p>
+                </div>
+              </article>
+              <article class="summary-item">
+                <div class="summary-id">6</div>
+                <div>
+                  <h3>Región del observador</h3>
+                  <p>La hipótesis de trabajo es que estamos ubicados en algún punto entre esos dos frentes. Si se modela la separación, podría estimarse la posición relativa del observador.</p>
+                </div>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </article>
     </section>
 
     <section class="grid" id="status">
@@ -948,6 +1434,19 @@
   <script>
     const SYMBOLIC_YEARS = 13800000000;
     const REFERENCE_START = new Date("2026-04-03T07:00:00-03:00").getTime();
+    const COLLISION_CYCLE_MS = 34000;
+    const COLLISION_TRAVEL_START = 0.08;
+    const COLLISION_TRAVEL_END = 0.985;
+    const COLLISION_COUNTER_RAMP_MS = 13000;
+    const POST_CONTACT_SPEED_FACTOR = 0.256;
+    const POST_PRESENT_SPEED_FACTOR = 0.0012;
+    const TRANSITION_YEARS = 6000000000;
+    let animationPlaying = false;
+    let animationLocked = false;
+    let animationTimeMs = 0;
+    let contactTimeMs = null;
+    let lastFrameTime = null;
+    let animationFrameId = null;
     const UNITS_IN_SECONDS = {
       months: 30 * 24 * 3600,
       days: 24 * 3600,
@@ -977,9 +1476,8 @@
       };
     }
 
-    function updateCounter() {
+    function renderPresentTime() {
       const now = new Date();
-      const { years, months, days, hours, minutes, seconds } = getCounterParts(now.getTime());
       const navLiveTime = document.getElementById("navLiveTime");
       if (navLiveTime) {
         const datePart = [
@@ -1002,13 +1500,52 @@
         <div class="timepanel-cell"><span class="timepanel-unit">min</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getMinutes()).padStart(2, "0")}</span></span></div>
         <div class="timepanel-cell"><span class="timepanel-unit">seg</span><span class="timepanel-num-wrap"><span class="timepanel-num">${String(now.getSeconds()).padStart(2, "0")}</span></span></div>
       `;
+    }
+
+    function renderCollisionCounter(yearsValue, targetNow = new Date()) {
+      const reachedPresent = yearsValue >= SYMBOLIC_YEARS;
+      const cappedYears = reachedPresent ? SYMBOLIC_YEARS : Math.min(yearsValue, SYMBOLIC_YEARS);
+      const yearsBillions = Math.max(0, cappedYears / 1000000000);
+      const normalized = clamp(cappedYears / SYMBOLIC_YEARS, 0, 1);
+      const targetMonth = targetNow.getMonth() + 1;
+      const targetDay = targetNow.getDate();
+      const targetHour = targetNow.getHours();
+      const targetMinute = targetNow.getMinutes();
+      const targetSecond = targetNow.getSeconds();
+
+      const monthScale = reachedPresent ? targetMonth : Math.floor((normalized * 240)) % 12;
+      const dayScale = reachedPresent ? targetDay : Math.floor((normalized * 1800)) % 30;
+      const hourScale = reachedPresent ? targetHour : Math.floor((normalized * 9600)) % 24;
+      const minuteScale = reachedPresent ? targetMinute : Math.floor((normalized * 36000)) % 60;
+      const secondScale = reachedPresent ? targetSecond : Math.floor((normalized * 54000)) % 60;
+
       document.getElementById("counter").innerHTML = `
-        <div class="counter-cell"><span class="counter-unit">años</span><span class="counter-num-wrap"><span class="counter-num">${years.toLocaleString("es-CL")}</span></span></div>
-        <div class="counter-cell"><span class="counter-unit">meses</span><span class="counter-num-wrap"><span class="counter-num">${String(months).padStart(2, "0")}</span></span></div>
-        <div class="counter-cell"><span class="counter-unit">días</span><span class="counter-num-wrap"><span class="counter-num">${String(days).padStart(2, "0")}</span></span></div>
-        <div class="counter-cell"><span class="counter-unit">horas</span><span class="counter-num-wrap"><span class="counter-num">${String(hours).padStart(2, "0")}</span></span></div>
-        <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">${String(minutes).padStart(2, "0")}</span></span></div>
-        <div class="counter-cell seconds"><span class="counter-unit">seg</span><span class="counter-num-wrap"><span class="counter-num">${String(seconds).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell counter-cell-wide"><span class="counter-unit">mil millones de años</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("es-CL", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">meses</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">días</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">horas</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">${String(minuteScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell seconds"><span class="counter-unit">seg</span><span class="counter-num-wrap"><span class="counter-num">${String(secondScale).padStart(2, "0")}</span></span></div>
+      `;
+    }
+
+    function renderPastCounter(yearsValue) {
+      const yearsBillions = Math.max(0, yearsValue / 1000000000);
+      const normalized = clamp(yearsValue / TRANSITION_YEARS, 0, 1);
+      const completed = yearsValue >= TRANSITION_YEARS;
+      const monthScale = completed ? 0 : Math.floor((normalized * 240)) % 12;
+      const dayScale = completed ? 0 : Math.floor((normalized * 1800)) % 30;
+      const hourScale = completed ? 0 : Math.floor((normalized * 9600)) % 24;
+      const minuteScale = completed ? 0 : Math.floor((normalized * 36000)) % 60;
+      const secondScale = completed ? 0 : Math.floor((normalized * 54000)) % 60;
+
+      document.getElementById("pastCounter").innerHTML = `
+        <div class="counter-cell counter-cell-wide"><span class="counter-unit">mil millones de años</span><span class="counter-num-wrap"><span class="counter-num">${yearsBillions.toLocaleString("es-CL", { minimumFractionDigits: 3, maximumFractionDigits: 3 })}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">meses</span><span class="counter-num-wrap"><span class="counter-num">${String(monthScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">días</span><span class="counter-num-wrap"><span class="counter-num">${String(dayScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">horas</span><span class="counter-num-wrap"><span class="counter-num">${String(hourScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell"><span class="counter-unit">min</span><span class="counter-num-wrap"><span class="counter-num">${String(minuteScale).padStart(2, "0")}</span></span></div>
+        <div class="counter-cell seconds"><span class="counter-unit">seg</span><span class="counter-num-wrap"><span class="counter-num">${String(secondScale).padStart(2, "0")}</span></span></div>
       `;
     }
 
@@ -1028,14 +1565,49 @@
     function setupHeroCollision() {
       const visual = document.querySelector(".hero-visual");
       if (!visual) return;
+      const rampDuration = COLLISION_COUNTER_RAMP_MS;
+      function setControlState() {
+        const toggleButton = document.getElementById("togglePlaybackControl");
+        if (!toggleButton) return;
+        toggleButton.classList.toggle("is-active", animationPlaying);
+        toggleButton.classList.toggle("is-pulsing", !animationPlaying);
+        toggleButton.textContent = animationPlaying ? "Pausa" : "Reproducir";
+      }
 
-      const cycleMs = 26000;
-      const travelStart = 0.06;
-      const travelEnd = 0.985;
+      function renderFrame(totalTimeMs) {
+        const browserNow = new Date();
+        const cycleTimeMs = totalTimeMs % COLLISION_CYCLE_MS;
+        const t = cycleTimeMs / COLLISION_CYCLE_MS;
+        const baseRawTravel = clamp((t - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
+        const transitionProgress = clamp(TRANSITION_YEARS / SYMBOLIC_YEARS, 0, 1);
+        const transitionT = COLLISION_TRAVEL_START + (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START) * transitionProgress;
+        const baseLeftX = mix(-132, 132, baseRawTravel);
+        const baseRightX = mix(132, -132, baseRawTravel);
+        const hasContact = t >= transitionT;
 
-      function frame(now) {
-        const t = (now % cycleMs) / cycleMs;
-        const travel = clamp((t - travelStart) / (travelEnd - travelStart), 0, 1);
+        if (hasContact && contactTimeMs === null) {
+          contactTimeMs = totalTimeMs;
+        }
+
+        let rawTravel = baseRawTravel;
+        const contactCycleMs = contactTimeMs === null ? null : (contactTimeMs % COLLISION_CYCLE_MS);
+
+        if (contactTimeMs !== null && totalTimeMs >= contactTimeMs) {
+          const frozenProgress = clamp((contactCycleMs / COLLISION_CYCLE_MS - COLLISION_TRAVEL_START) / (COLLISION_TRAVEL_END - COLLISION_TRAVEL_START), 0, 1);
+          const postMs = totalTimeMs - contactTimeMs;
+          const remaining = Math.max(0, 1 - frozenProgress);
+          const fastPhaseMs = Math.min(postMs, rampDuration);
+          const fastProgress = clamp((fastPhaseMs / (COLLISION_CYCLE_MS - contactCycleMs || 1)) * POST_CONTACT_SPEED_FACTOR, 0, 1);
+          rawTravel = frozenProgress + remaining * fastProgress;
+        }
+
+        let travel = rawTravel;
+
+        // Keep the initial approach almost linear and only slow down close to contact.
+        if (rawTravel > 0.74) {
+          const finalPhase = smoothstep(0.74, 1, rawTravel);
+          travel = mix(0.74, 1, finalPhase);
+        }
 
         let leftX = -132;
         let rightX = 132;
@@ -1048,13 +1620,18 @@
         let collisionOpacity = 0;
         let collisionScaleX = 0.78;
         let collisionScaleY = 0.78;
+        let counterYears = 0;
+        let pastYears = contactTimeMs === null
+          ? TRANSITION_YEARS * clamp(baseRawTravel / transitionProgress, 0, 1)
+          : TRANSITION_YEARS;
 
-        if (t >= travelStart && t <= travelEnd) {
+        const keepVisibleAfterContact = contactTimeMs !== null;
+        if ((t >= COLLISION_TRAVEL_START && t <= COLLISION_TRAVEL_END) || keepVisibleAfterContact) {
           leftX = mix(-132, 132, travel);
           rightX = mix(132, -132, travel);
 
           const fadeIn = smoothstep(0, 0.09, travel);
-          const visibility = fadeIn;
+          const visibility = keepVisibleAfterContact ? 1 : fadeIn;
 
           leftOpacity = rightOpacity = 0.68 * visibility;
 
@@ -1069,6 +1646,17 @@
           collisionScaleY = mix(0.82, 0.84, overlap);
         }
 
+        if (contactTimeMs !== null && totalTimeMs >= contactTimeMs) {
+          const elapsedAfterContact = totalTimeMs - contactTimeMs;
+          if (elapsedAfterContact <= rampDuration) {
+            const rampProgress = elapsedAfterContact / rampDuration;
+            const accelerated = 1 - Math.pow(1 - rampProgress, 1.6);
+            counterYears = SYMBOLIC_YEARS * accelerated;
+          } else {
+            counterYears = SYMBOLIC_YEARS;
+          }
+        }
+
         visual.style.setProperty("--left-x", `${leftX}%`);
         visual.style.setProperty("--right-x", `${rightX}%`);
         visual.style.setProperty("--left-opacity", leftOpacity.toFixed(3));
@@ -1080,15 +1668,74 @@
         visual.style.setProperty("--collision-opacity", collisionOpacity.toFixed(3));
         visual.style.setProperty("--collision-scale-x", collisionScaleX.toFixed(3));
         visual.style.setProperty("--collision-scale-y", collisionScaleY.toFixed(3));
-
-        requestAnimationFrame(frame);
+        renderCollisionCounter(counterYears, browserNow);
+        renderPastCounter(pastYears);
       }
 
-      requestAnimationFrame(frame);
+      function frame(now) {
+        if (lastFrameTime == null) lastFrameTime = now;
+        const delta = now - lastFrameTime;
+        lastFrameTime = now;
+
+        if (animationPlaying) {
+          animationTimeMs += delta;
+        }
+
+        renderFrame(animationTimeMs);
+
+        const currentLeftX = parseFloat(visual.style.getPropertyValue("--left-x")) || 0;
+        const currentRightX = parseFloat(visual.style.getPropertyValue("--right-x")) || 0;
+        const currentLeftOpacity = parseFloat(visual.style.getPropertyValue("--left-opacity")) || 0;
+        const currentRightOpacity = parseFloat(visual.style.getPropertyValue("--right-opacity")) || 0;
+
+        if (
+          contactTimeMs !== null &&
+          currentLeftX >= 131 &&
+          currentRightX <= -131 &&
+          currentLeftOpacity > 0 &&
+          currentRightOpacity > 0
+        ) {
+          animationTimeMs = 0;
+          contactTimeMs = null;
+          renderFrame(0);
+        }
+
+        animationFrameId = requestAnimationFrame(frame);
+      }
+
+      document.getElementById("togglePlaybackControl")?.addEventListener("click", () => {
+        if (animationLocked) return;
+        animationPlaying = !animationPlaying;
+        setControlState();
+      });
+
+      document.getElementById("stopControl")?.addEventListener("click", () => {
+        animationPlaying = false;
+        animationLocked = false;
+        animationTimeMs = 0;
+        contactTimeMs = null;
+        renderFrame(0);
+        setControlState();
+      });
+
+      document.getElementById("resetControl")?.addEventListener("click", () => {
+        animationPlaying = true;
+        animationLocked = false;
+        animationTimeMs = 0;
+        contactTimeMs = null;
+        lastFrameTime = null;
+        renderFrame(0);
+        setControlState();
+      });
+
+      setControlState();
+      animationFrameId = requestAnimationFrame(frame);
     }
 
-    updateCounter();
-    setInterval(updateCounter, 1000);
+    renderPresentTime();
+    renderCollisionCounter(0);
+    renderPastCounter(0);
+    setInterval(renderPresentTime, 1000);
     setupHeroCollision();
   </script>
 </body>
