@@ -1574,6 +1574,58 @@
       return t * t * (3 - 2 * t);
     }
 
+    function trackEvent(eventName, params = {}) {
+      if (typeof gtag !== "function") return;
+      gtag("event", eventName, {
+        page_language: "en",
+        ...params
+      });
+    }
+
+    function setupAnalyticsEvents() {
+      document.querySelector(".nav-chip")?.addEventListener("click", () => {
+        trackEvent("language_switch", {
+          source_language: "en",
+          target_language: "es"
+        });
+      });
+
+      document.querySelectorAll(".metric-link").forEach((link) => {
+        const label = link.querySelector(".metric-label")?.textContent?.trim() || "unknown";
+        link.addEventListener("click", () => {
+          trackEvent("matrix_open", {
+            matrix_name: label.toLowerCase().replace(/\s+/g, "_")
+          });
+        });
+      });
+
+      document.querySelectorAll(".marker").forEach((marker, index) => {
+        const label = marker.querySelector(".marker-label")?.textContent?.trim() || `marker_${index + 1}`;
+        marker.addEventListener("click", () => {
+          trackEvent("diagram_marker_click", {
+            marker_index: index + 1,
+            marker_label: label
+          });
+        });
+      });
+
+      document.querySelectorAll(".summary-item").forEach((item, index) => {
+        const label = item.querySelector("h3")?.textContent?.trim() || `summary_${index + 1}`;
+        item.addEventListener("click", () => {
+          trackEvent("diagram_summary_click", {
+            summary_index: index + 1,
+            summary_label: label
+          });
+        });
+      });
+
+      document.querySelector(".card-link")?.addEventListener("click", () => {
+        trackEvent("contact_click", {
+          contact_method: "email"
+        });
+      });
+    }
+
     function setupHeroCollision() {
       const visual = document.querySelector(".hero-visual");
       if (!visual) return;
@@ -1717,11 +1769,17 @@
 
       document.getElementById("togglePlaybackControl")?.addEventListener("click", () => {
         if (animationLocked) return;
+        trackEvent(animationPlaying ? "pause_click" : "play_click", {
+          control_area: "hero_collision"
+        });
         animationPlaying = !animationPlaying;
         setControlState();
       });
 
       document.getElementById("stopControl")?.addEventListener("click", () => {
+        trackEvent("stop_click", {
+          control_area: "hero_collision"
+        });
         animationPlaying = false;
         animationLocked = false;
         animationTimeMs = 0;
@@ -1731,6 +1789,9 @@
       });
 
       document.getElementById("resetControl")?.addEventListener("click", () => {
+        trackEvent("reset_click", {
+          control_area: "hero_collision"
+        });
         animationPlaying = true;
         animationLocked = false;
         animationTimeMs = 0;
@@ -1748,6 +1809,7 @@
     renderCollisionCounter(0);
     renderPastCounter(0);
     setInterval(renderPresentTime, 1000);
+    setupAnalyticsEvents();
     setupHeroCollision();
   </script>
 </body>
