@@ -32,3 +32,4 @@ La web funciona como una entrada visual y conceptual al proyecto:
 - agregar una lectura del futuro del sistema, pero solo despues de calcularla con mas detalle
 - no forzar varios futuros posibles si el modelo termina apuntando a uno solo
 - seguir afinando la relacion entre texto, figura y lectura tipo paper
+- agregar estadisticas de uso tipo analytics para medir visitas, origenes, tiempo de lectura y puntos donde los visitantes se detienen o permanecen mirando
