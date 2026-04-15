@@ -1593,8 +1593,15 @@
       document.querySelectorAll(".metric-link").forEach((link) => {
         const label = link.querySelector(".metric-label")?.textContent?.trim() || "unknown";
         link.addEventListener("click", () => {
-          trackEvent("matrix_open", {
-            matrix_name: label.toLowerCase().replace(/\s+/g, "_")
+          const matrixKey = label.toLowerCase().replace(/\s+/g, "_");
+          let eventName = "matrix_open";
+
+          if (matrixKey === "push") eventName = "matrix_open_r1";
+          if (matrixKey === "confinement") eventName = "matrix_open_r2";
+          if (matrixKey === "rotation") eventName = "matrix_open_r3";
+
+          trackEvent(eventName, {
+            matrix_name: matrixKey
           });
         });
       });
